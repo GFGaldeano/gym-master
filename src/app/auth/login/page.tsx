@@ -1,4 +1,3 @@
-// src/app/auth/login/page.tsx
 "use client";
 
 import { useState, FormEvent } from "react";
@@ -22,6 +21,8 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+ const [userType, setUserType] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -37,6 +38,7 @@ export default function LoginPage() {
     const res = await signIn("credentials", {
       email,
       password,
+      // opcional: podrías enviar userType como parte del contexto o usarlo en otro lado
       redirect: false,
     });
 
@@ -99,6 +101,24 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="userType">Tipo de Usuario</Label>
+                <select
+                  id="userType"
+                  value={userType}
+                  onChange={(e) => setUserType(e.target.value)}
+                  className="border border-input bg-background px-3 py-2 rounded-md text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
+                  required
+                >
+                  <option value="" disabled>
+                    Seleccione el tipo de usuario
+                  </option>
+                  <option value="administrador">Administrador</option>
+                  <option value="socio">Socio</option>
+                  <option value="usuario">Usuario</option>
+                </select>
               </div>
 
               <Button type="submit" className="w-full mt-2" disabled={loading}>

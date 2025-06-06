@@ -1,1 +1,2 @@
-export { default } from "@/components/intro/IntroWrapper";
+export { default } from "@/components/intro/Intro"; // y no IntroWrapper
+
