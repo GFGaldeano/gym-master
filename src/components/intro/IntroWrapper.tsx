@@ -24,7 +24,7 @@ export default function IntroWrapper() {
 
     // Simula duración de intro (3.5s por ejemplo)
     const timer = setTimeout(() => {
-      localStorage.setItem("introSeen", "true");
+     // localStorage.setItem("introSeen", "true");
       setIntroVisible(false);
       router.push("/auth/login");
     }, 3500); // Tiempo en ms

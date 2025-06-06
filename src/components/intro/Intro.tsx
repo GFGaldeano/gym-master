@@ -2,53 +2,35 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 
 export default function Intro() {
-  const [visible, setVisible] = useState(true);
+  const [videoSrc, setVideoSrc] = useState("/intro-gym-master-h.webm");
   const router = useRouter();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setVisible(false);
-      router.push("/auth/login");
-    }, 5000); // Duración de la intro
+    // Detectar dispositivo y establecer el video correcto
+    const isMobile = window.innerWidth <= 768;
+    setVideoSrc(
+      isMobile ? "/intro-gym-master-v.webm" : "/intro-gym-master-h.webm"
+    );
 
-    return () => clearTimeout(timer);
+    // Redirigir a login luego de 6 segundos (6000 ms)
+    const timeout = setTimeout(() => {
+      router.push("/auth/login");
+    }, 6000);
+
+    return () => clearTimeout(timeout);
   }, [router]);
 
-  if (!visible) return null;
-
   return (
-    <AnimatePresence>
-      <motion.div
-        className="fixed inset-0 bg-white flex flex-col items-center justify-center z-50"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 2 }}
-      >
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 1.1, opacity: 0 }}
-          transition={{ duration: 2}}
-        >
-          <img
-            src="/gm_logo.svg"
-            alt="Gym Master Logo"
-            className="w-75 h-75"
-          />
-        </motion.div>
-        <motion.p
-          className="mt-4 text-lg font-medium text-gray-800"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 3 }}
-        >
-          Cargando...
-        </motion.p>
-      </motion.div>
-    </AnimatePresence>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
+      <video
+        src={videoSrc}
+        autoPlay
+        muted
+        playsInline
+        className="w-full h-full object-cover"
+      />
+    </div>
   );
 }
