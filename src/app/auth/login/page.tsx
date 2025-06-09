@@ -44,7 +44,7 @@ export default function LoginPage() {
 
     if (res?.ok) {
       toast.success("Inicio de sesión exitoso");
-      router.replace("/dashboard");
+      router.replace("/dashboard/admin");
     } else {
       toast.error("Correo o contraseña incorrectos");
     }
