@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏋️‍♂️ Gym Master
 
-## Getting Started
+**Gym Master** es un sistema integral de gestión de gimnasios desarrollado por **Dragon Pyramid**. Está diseñado para automatizar tareas administrativas, mejorar la experiencia del cliente y ofrecer herramientas inteligentes para rutinas personalizadas.  
+Este sistema es desarrollado por un equipo de pasantes en un proyecto acelerado de 3 meses.
 
-First, run the development server:
+---
+
+## 🚀 Objetivo del Proyecto
+
+Crear una plataforma moderna, segura y eficiente para la gestión completa de un gimnasio, incluyendo usuarios, socios, asistencia, pagos, rutinas, productos, ventas y dietas personalizadas, con soporte para funcionalidades híbridas.
+
+---
+
+## 🧠 Stack Tecnológico
+
+- **Next.js 14** (App Router + API Routes)
+- **TailwindCSS** (estilos rápidos y modernos)
+- **Shadcn UI** (componentes UI basados en Radix UI + TailwindCSS)
+- **Supabase** (Base de datos PostgreSQL + Autenticación + Storage)
+- **TypeScript** (tipado fuerte)
+- **PWA Ready** (instalable en móviles, tablets y desktops)
+- **NextAuth** (autenticación con Google)
+- **Stripe** (pagos online)
+- **IndexedDB** (almacenamiento local para modo offline)
+- **Jest** (testing en futuras versiones)
+- **Python** + **Scikit-Learn / TensorFlow / Pandas** (para el módulo IA)
+
+---
+
+## 🤖 IA aplicada a Fitness y Nutrición
+
+Contamos con un **módulo de Inteligencia Artificial** desarrollado por el área de **Data Science**. Su función es:
+
+- Generar **rutinas personalizadas** a partir de parámetros como edad, género, IMC, historial de entrenamiento, nivel de experiencia y objetivos.
+- Recomendar **dietas específicas** según las metas del usuario, condiciones médicas y horarios.
+- Aprendizaje continuo de los hábitos del usuario.
+- Ajuste dinámico de las recomendaciones basado en la evolución del cliente.
+- Evaluaciones automáticas mensuales.
+
+**Tecnologías utilizadas en IA**:
+- Lenguaje: Python
+- Librerías: Pandas, NumPy, Scikit-Learn, TensorFlow
+- Entrenamiento de modelos supervisados y sistemas de recomendación.
+
+---
+
+## 🔥 Características PWA
+
+- Instalación como app en móviles y escritorio.
+- Funciona offline para páginas cacheadas.
+- Sincronización automática de datos con Supabase.
+- Notificaciones sobre estado de conexión.
+
+---
+
+## 📦 Estructura del Proyecto
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+/gym-master
+├── /app              # Páginas y rutas principales
+├── /components       # Componentes reutilizables (UI, forms, menús)
+├── /services         # Conexión con Supabase y lógica de negocio
+├── /models           # Interfaces y tipos TypeScript
+├── /lib              # Funciones auxiliares
+├── /styles           # Estilos globales
+├── /public           # Recursos estáticos
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 💻 Instalación y ejecución
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clonar el repositorio:
+```bash
+git clone https://github.com/dragonpyramid/gym-master.git
+cd gym-master
+```
 
-## Learn More
+2. Instalar dependencias:
+```bash
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+3. Crear `.env.local` con las siguientes variables:
+```
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+NEXTAUTH_URL=...
+GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
+STRIPE_SECRET_KEY=...
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Ejecutar la app:
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🔃 Reglas de trabajo con ramas
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- 🔒 No pushear directamente a `main`.
+- 🌿 Trabajar sobre `develop` o `feature/*`.
+- 🔃 Usar **Pull Requests** para fusionar cambios.
+- ✍️ Commits con convenciones: `feat:`, `fix:`, `docs:`, etc.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📩 Contacto
+
+**Dragon Pyramid**  
+📧 contacto@dragonpyramid.com.ar  
+🌐 [www.dragonpyramid.com.ar](http://www.dragonpyramid.com.ar)  
+
+
+## ⚖️ Licencia
+
+Este proyecto es de uso privado hasta su lanzamiento oficial.  
+No se permite su distribución sin autorización.
+
+---
