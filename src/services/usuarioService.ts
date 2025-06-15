@@ -1,34 +1,62 @@
-// src/services/usuarioService.ts
-import { supabase } from "./supabaseClient";
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
+import { supabase } from './supabaseClient';
 
 export const fetchUsuarios = async () => {
   const { data, error } = await supabase
-    .from("usuario")
-    .select("id, nombre, email, rol, activo, creado_en")
-    .order("creado_en", { ascending: false });
+    .from('usuario') // o 'usuarios' según corresponda
+    .select('*');
+
+  console.log("FETCH DATA:", data);
+  console.error("FETCH ERROR:", error);
 
   if (error) throw new Error(error.message);
   return data;
 };
 
-export const createUsuario = async (data: {
-  nombre: string;
-  email: string;
-  password: string;
-  rol: string;
-}) => {
-  const hashedPassword = await bcrypt.hash(data.password, 10);
 
-  const { data: result, error } = await supabase.from("usuario").insert([
-    {
-      nombre: data.nombre,
-      email: data.email,
-      password_hash: hashedPassword,
-      rol: data.rol,
-    },
-  ]);
+export const createUsuarios = async (nombre: string, email: string, password_plain: string) => {
+  const password_hash = await bcrypt.hash(password_plain, 10);
+
+  const { data, error } = await supabase
+    .from('usuario')
+    .insert([{ nombre, email, password_hash, rol: 'socio' }])
+    .select();
 
   if (error) throw new Error(error.message);
-  return result;
+  return data;
 };
+
+export const updateUsuarios = async (
+  id: string,
+  updateData: { nombre?: string; email?: string; password_hash?: string }
+) => {
+  const { data, error } = await supabase
+    .from('usuario')
+    .update(updateData)
+    .eq('id', id)
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  if (!data || data.length === 0) {
+    throw new Error('No se encontró el usuario con ese ID');
+  }
+
+  return data;
+};
+
+
+export const deleteUsuarios = async (id: string) => {
+  const { data, error } = await supabase
+    .from('usuario')
+    .update({ activo: false })
+    .eq('id', id)
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  if (!data || data.length === 0) {
+    throw new Error('No se encontró el usuario con ese ID');
+  }
+};
+
