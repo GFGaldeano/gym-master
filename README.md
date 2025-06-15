@@ -56,15 +56,43 @@ Contamos con un **módulo de Inteligencia Artificial** desarrollado por el área
 ## 📦 Estructura del Proyecto
 
 ```bash
+# 📁 Estructura de carpetas del proyecto Gym Master
+
 /gym-master
-├── /app              # Páginas y rutas principales
-├── /components       # Componentes reutilizables (UI, forms, menús)
-├── /services         # Conexión con Supabase y lógica de negocio
-├── /models           # Interfaces y tipos TypeScript
-├── /lib              # Funciones auxiliares
-├── /styles           # Estilos globales
-├── /public           # Recursos estáticos
-└── README.md
+├── /app                    # 📂 Estructura principal de rutas del sistema (Next.js App Router)
+│   ├── /api                # 📡 Endpoints internos de la app (API Routes)
+│   ├── /auth               # 🔐 Lógica de autenticación (login, callbacks, etc.)
+│   ├── /dashboard          # 📊 Páginas principales del dashboard administrativo
+│   ├── layout.tsx          # 🧱 Componente de layout general para el sistema
+│   ├── page.tsx            # 🏠 Página raíz del proyecto
+│   └── globals.css         # 🎨 Estilos globales compartidos
+│
+├── /components             # 🧩 Componentes reutilizables de UI
+│   ├── /footer             # 📄 Pie de página (footer) del sistema
+│   ├── /header             # 🔝 Encabezado general
+│   ├── /horizontal-menu    # 📑 Menú horizontal superior
+│   ├── /intro              # 🎥 Sección de introducción (pantalla inicial con video)
+│   ├── /sidebar            # 📚 Menú lateral izquierdo
+│   └── /ui                 # 🧱 Elementos de UI atómicos (botones, inputs, cards, etc.)
+│
+├── /hooks                  # 🪝 Custom Hooks para manejar lógica de React de forma modular
+│
+├── /lib                    # 🔧 Funciones auxiliares y herramientas generales
+│
+├── /pages                  # 📄 Ruta legacy (si se usa /api desde pages o documentación interna)
+│
+├── /services               # 🌐 Conexión con Supabase y lógica de acceso a datos
+│
+├── /types                  # 🧠 Tipado TypeScript compartido en todo el sistema
+│
+├── /public                 # 🖼️ Archivos estáticos: imágenes, íconos, videos, manifest, etc.
+│
+├── /.next                  # ⚙️ Carpeta generada automáticamente por Next.js (NO tocar)
+│
+├── /node_modules           # 📦 Dependencias instaladas (NO editar manualmente)
+```
+
+> ℹ️ Esta estructura modular permite escalar el proyecto, dividir roles entre desarrolladores y mantener el código organizado.
 ```
 
 ---
@@ -73,7 +101,7 @@ Contamos con un **módulo de Inteligencia Artificial** desarrollado por el área
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/dragonpyramid/gym-master.git
+git clone https://github.com/GFGaldeano/gym-master.git
 cd gym-master
 ```
 
