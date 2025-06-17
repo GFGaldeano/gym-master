@@ -143,7 +143,7 @@ npm run dev
 🌐 [www.dragonpyramid.com.ar](http://www.dragonpyramid.com.ar)  
 
 
-## ⚖️ Licencias
+## ⚖️ Licencia
 
 Este proyecto es de uso privado hasta su lanzamiento oficial.  
 No se permite su distribución sin autorización.
