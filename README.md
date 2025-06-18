@@ -101,7 +101,7 @@ Contamos con un **módulo de Inteligencia Artificial** desarrollado por el área
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/GFGaldeano/gym-master.git
+git clone https://github.com/Dragon-Pyramid/gym-master.git
 cd gym-master
 ```
 
