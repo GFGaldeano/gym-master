@@ -93,7 +93,29 @@ Contamos con un **módulo de Inteligencia Artificial** desarrollado por el área
 ```
 
 > ℹ️ Esta estructura modular permite escalar el proyecto, dividir roles entre desarrolladores y mantener el código organizado.
-```
+
+---
+
+## ✉️ Notificaciones por Correo Electrónico
+
+El sistema **Gym Master** incluye un módulo de notificaciones por correo electrónico para mantener informados a los socios en tiempo real.
+
+### Funcionalidades principales:
+
+- ✅ Confirmación automática de alta de socio.
+- ⏰ Avisos de vencimiento de cuota.
+- ❌ Notificación de mora por cuota vencida.
+- 📅 Confirmación de turnos y reservas.
+- 📝 Envío de mensajes personalizados desde el panel de administración.
+
+### Implementación técnica:
+
+- 📧 Integración con servicios SMTP (ej: SendGrid, Mailgun).
+- 🖼️ Emails en formato HTML con plantillas editables.
+- 🔒 Envío solo a correos verificados.
+- 🛠️ Configuración administrable desde el backend.
+
+> ⚠️ Este módulo puede ser desactivado o personalizado según las necesidades de cada gimnasio.
 
 ---
 
@@ -142,10 +164,9 @@ npm run dev
 📧 contacto@dragonpyramid.com.ar  
 🌐 [www.dragonpyramid.com.ar](http://www.dragonpyramid.com.ar)  
 
+---
 
 ## ⚖️ Licencia
 
 Este proyecto es de uso privado hasta su lanzamiento oficial.  
 No se permite su distribución sin autorización.
-
----
