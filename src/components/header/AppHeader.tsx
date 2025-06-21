@@ -1,3 +1,5 @@
+'use client';
+
 import { useSession } from "next-auth/react";
 import React from "react";
 import { useSidebar } from "../ui/sidebar";
@@ -67,10 +69,10 @@ export const AppHeader = ({ title }: AppHeaderProps) => {
       {/* ---------- Logo y Título ---------- */}
       <div className="flex items-center gap-3">
         <Image 
-          src="/chang-logo.jpg" 
-          alt="Chang Logo" 
-          width={40} 
-          height={40} 
+          src="gm_logo.svg" 
+          alt="Gym Master Logo" 
+          width={120} 
+          height={120} 
           className="rounded-sm" 
         />
         <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
@@ -154,9 +156,9 @@ export const AppHeader = ({ title }: AppHeaderProps) => {
             <TooltipTrigger asChild>
               <div className="cursor-pointer">
                 <Avatar
-                  src={session?.user?.image ?? undefined}
-                  alt={userEmail}
-                  initials={initials}
+                  // src={session?.user?.image ?? undefined}
+                  // alt={userEmail}
+                  // initials={initials}
                   size={32}
                 />
               </div>
