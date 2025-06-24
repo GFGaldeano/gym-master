@@ -32,14 +32,14 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 export default function DashboardPage() {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen">
+      <div className="flex w-full min-h-screen">
         <AppSidebar />
 
-        <div className="flex-1 flex flex-col w-full">
+        <div className="flex flex-col flex-1 w-full">
           <AppHeader title="Dashboard" />
 
-          <main className="flex-1 px-4 md:px-8 py-6 space-y-6 w-full max-w-full">
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+          <main className="flex-1 px-4 py-6 space-y-6 w-full max-w-full md:px-8">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
               <Card>
                 <CardHeader>
                   <CardTitle>Socios Activos</CardTitle>
@@ -47,7 +47,7 @@ export default function DashboardPage() {
                 <CardContent>
                   <div className="text-3xl font-bold">120</div>
                   <p className="text-sm text-muted-foreground">Socios registrados actualmente</p>
-                  <p className="text-sm text-green-500 mt-1">+8 nuevos esta semana</p>
+                  <p className="mt-1 text-sm text-green-500">+8 nuevos esta semana</p>
                 </CardContent>
               </Card>
 
@@ -58,7 +58,7 @@ export default function DashboardPage() {
                 <CardContent>
                   <div className="text-3xl font-bold">5</div>
                   <p className="text-sm text-muted-foreground">Tipos de actividades en el gimnasio</p>
-                  <p className="text-sm text-foreground mt-1">≈ Sin cambios</p>
+                  <p className="mt-1 text-sm text-foreground">≈ Sin cambios</p>
                 </CardContent>
               </Card>
 
@@ -69,7 +69,7 @@ export default function DashboardPage() {
                 <CardContent>
                   <div className="text-3xl font-bold">4</div>
                   <p className="text-sm text-muted-foreground">Entrenadores disponibles</p>
-                  <p className="text-sm text-green-500 mt-1">↑ +1 desde el mes pasado</p>
+                  <p className="mt-1 text-sm text-green-500">↑ +1 desde el mes pasado</p>
                 </CardContent>
               </Card>
 
@@ -80,12 +80,12 @@ export default function DashboardPage() {
                 <CardContent>
                   <div className="text-3xl font-bold">36</div>
                   <p className="text-sm text-muted-foreground">Total de clases esta semana</p>
-                  <p className="text-sm text-green-500 mt-1">↑ +10% asistencia</p>
+                  <p className="mt-1 text-sm text-green-500">↑ +10% asistencia</p>
                 </CardContent>
               </Card>
             </div>
 
-            <div className="grid gap-4 grid-cols-1 lg:grid-cols-12">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
               <Card className="col-span-12 lg:col-span-8">
                 <CardHeader>
                   <CardTitle>Asistencias por Día</CardTitle>
