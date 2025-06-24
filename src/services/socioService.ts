@@ -62,3 +62,17 @@ export const deleteSocio = async (id: string) => {
   if (error) throw new Error(error.message)
   if (!data || data.length === 0) throw new Error('No se encontró el socio con ese ID')
 }
+
+//TODO: Modificar suprabase para que sea id, en lugar de id_socio, para utilizar el mismo nombre de campo en todas las tablas
+export const existeSocioActivo = async (id: string) => {
+  const { data, error } = await supabase
+    .from('socio')
+    .select('id_socio')
+    .eq('id_socio', id)
+    .eq('activo', true)
+    .single();
+    console.log(data,error);
+    
+  if (error || !data) return false;
+  return true;
+};

@@ -15,15 +15,17 @@ export async function GET() {
   }
 }
 
+
+//TODO: Implementar dto para que al enviar el response, no se envie el password_hash
 export async function POST(req: Request) {
   try {
-    const { nombre, email, password_hash } = await req.json();
+    const { nombre, email, password } = await req.json();
 
-    if (!nombre || !email || !password_hash) {
+    if (!nombre || !email || !password) {
       return NextResponse.json({ error: 'Todos los campos son obligatorios' }, { status: 400 });
     }
 
-    const creado = await createUsuarios(nombre.trim(), email.trim(), password_hash.trim());
+    const creado = await createUsuarios({nombre: nombre.trim(), email: email.trim(), password: password.trim()});
     return NextResponse.json({
       message: 'Usuario creado con éxito',
       data: creado
