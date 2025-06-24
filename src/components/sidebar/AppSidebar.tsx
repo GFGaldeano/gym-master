@@ -20,7 +20,7 @@ export const AppSidebar = () => {
       {isMobile && !isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed top-4 left-4 z-50 bg-transparent text-black"
+          className="fixed top-4 left-4 z-50 text-black bg-transparent"
         >
           <Menu size={24} />
         </button>
@@ -28,19 +28,17 @@ export const AppSidebar = () => {
 
       {isMobile && isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="fixed inset-0 z-40 bg-black bg-opacity-50"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       <Sidebar
-        className={`transition-transform duration-300 transform  ${
+        className={`transition-transform duration-300 transform ${
           isMobile
-            ? `absolute top-0 left-0 h-full w-64 bg-white z-50 ${
+            ? `absolute top-0 left-0 h-full w-64 text-sidebar-foreground z-50 ${
                 isOpen ? "translate-x-0" : "-translate-x-full"
-              }`
-            : "w-64 min-w-[16rem] max-w-[16rem] h-auto bg-white border-r border-b rounded-lg z-30"
-        } max-h-screen overflow-y-auto sidebar-scrollbar `}
+              } bg-[var(--color-sidebar)]`:`w-64 min-w-[16rem] max-w-[16rem] h-auto border-r border-b rounded-lg z-30 overflow-y-auto max-h-screen bg-[var(--color-sidebar)] text-[var(--color-sidebar-foreground)]`} sidebar-scrollbar`}
       >
         <SidebarContent>
           {isMobile && (
@@ -50,7 +48,7 @@ export const AppSidebar = () => {
               </button>
             </div>
           )}
-          <div className="mt-5 text-center text-xl font-semibold tracking-tight">
+          <div className="mt-5 text-xl font-semibold tracking-tight text-center">
             Gym Master
           </div>
 
