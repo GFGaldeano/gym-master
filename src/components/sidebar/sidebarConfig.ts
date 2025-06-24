@@ -1,4 +1,4 @@
-import { LayoutDashboard, Dumbbell, Users, CalendarCheck, Settings } from "lucide-react";
+import { LayoutDashboard, Dumbbell, CalendarCheck, Settings, ShieldBan } from "lucide-react";
 import React from "react";
 
 export interface SidebarItemType {
@@ -46,4 +46,21 @@ export const sections: SidebarSectionType[] = [
       { title: "Preferencias", link: "/dashboard/settings/preferences", level: 2 },
     ],
   },
+  {
+    title: "Administrador",
+    icon: ShieldBan,
+    items: [
+      { title: "Cuotas", link: "/dashboard/cuotas", level: 2 },
+      { title: "Usuarios", link: "/dashboard/usuarios", level: 2 },
+      { title: "Socios", link: "/dashboard/socios", level: 2 },
+      { title: "Asistencia", link: "/dashboard/asistencia", level: 2 },
+      { title: "Pagos", link: "/dashboard/pagos", level: 2 },
+      { title: "Ventas", link: "/dashboard/ventas", level: 2 },
+      { title: "Productos", link: "/dashboard/productos", level: 2 },
+      { title: "Servicios", link: "/dashboard/servicios", level: 2 },
+      { title: "Rutinas", link: "/dashboard/rutinas", level: 2 },
+      { title: "Dietas", link: "/dashboard/dietas", level: 2 },
+      { title: "Otros gastos", link: "/dashboard/otros-gastos", level: 2 },
+    ]
+  }
 ];
