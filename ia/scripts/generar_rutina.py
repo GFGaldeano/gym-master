@@ -54,3 +54,6 @@ def generar_rutina_mensual():
 if __name__ == "__main__":
     rutina = generar_rutina_mensual()
     print(json.dumps(rutina, indent=2, ensure_ascii=False))
+
+
+#Comentario
