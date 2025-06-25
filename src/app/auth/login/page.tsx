@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
+import { Sun, Moon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,14 +17,41 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
+function useDarkMode() {
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    const prefersSystem = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    const initial = saved ? saved === "dark" : prefersSystem;
+    setDark(initial);
+    document.documentElement.classList.toggle("dark", initial);
+  }, []);
+
+  const toggle = useCallback(() => {
+    setDark((prev) => {
+      const next = !prev;
+      document.documentElement.classList.toggle("dark", next);
+      localStorage.setItem("theme", next ? "dark" : "light");
+      return next;
+    });
+  }, []);
+
+  return { dark, toggle };
+}
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const { dark, toggle } = useDarkMode();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -38,7 +66,6 @@ export default function LoginPage() {
     const res = await signIn("credentials", {
       email,
       password,
-      // opcional: podrías enviar userType como parte del contexto o usarlo en otro lado
       redirect: false,
     });
 
@@ -53,21 +80,46 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-background gap-4">
+    <div className="flex relative inset-0 flex-col gap-4 justify-center items-center bg-background">
+      <div className="absolute top-4 right-4">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground hover:text-foreground"
+                onClick={toggle}
+                aria-label="Cambiar modo claro/oscuro"
+              >
+                {dark ? (
+                  <Moon className="size-7" />
+                ) : (
+                  <Sun className="size-7" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              {dark ? "Modo claro" : "Modo oscuro"}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+
       <div className="text-center">
-        <div className="mx-auto w-70 h-70 relative">
+        <div className="relative mx-auto w-70 h-70">
           <Image
             src="/gm_logo.svg"
             alt="Gym Master Logo"
             fill
-            className="object-contain"
+            className="object-contain dark:invert"
             priority
           />
         </div>
       </div>
 
       <div className="w-[400px] px-4">
-        <Card className="shadow-md rounded-xl overflow-hidden w-full">
+        <Card className="overflow-hidden w-full rounded-xl shadow-md">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center">
               Iniciar Sesión
@@ -109,7 +161,7 @@ export default function LoginPage() {
                   id="userType"
                   value={userType}
                   onChange={(e) => setUserType(e.target.value)}
-                  className="border border-input bg-background px-3 py-2 rounded-md text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
+                  className="px-3 py-2 text-sm rounded-md border shadow-sm border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
                   required
                 >
                   <option value="" disabled>
@@ -121,7 +173,7 @@ export default function LoginPage() {
                 </select>
               </div>
 
-              <Button type="submit" className="w-full mt-2" disabled={loading}>
+              <Button type="submit" className="mt-2 w-full" disabled={loading}>
                 {loading ? "Ingresando..." : "Iniciar sesión"}
               </Button>
             </form>
