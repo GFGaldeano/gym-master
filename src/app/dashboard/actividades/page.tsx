@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppHeader } from "@/components/header/AppHeader";
@@ -9,26 +9,34 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Printer, FileSpreadsheet } from "lucide-react";
-import { fetchSocios, toggleSocioActivo } from "@/services/socioService";
-import SocioModal from "@/components/modal/SocioModal";
-import SocioViewModal from "@/components/modal/SocioViewModal";
-import SociosTable, { Socio } from "@/components/tables/SociosTable";
+import {
+  fetchAllActividades,
+  deleteActividad,
+} from "@/services/actividadService";
+import ActividadModal from "@/components/modal/ActividadModal";
+import ActividadViewModal from "@/components/modal/ActividadViewModal";
+import ActividadTable from "@/components/tables/ActividadTable";
+import { Actividad } from "@/interfaces/actividad.interface";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { toast } from "sonner";
 import ExcelJS from "exceljs";
 
-export default function SociosPage() {
+export default function ActividadesPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [socios, setSocios] = useState<Socio[]>([]);
-  const [filteredSocios, setFilteredSocios] = useState<Socio[]>([]);
+  const [actividades, setActividades] = useState<Actividad[]>([]);
+  const [filteredActividades, setFilteredActividades] = useState<Actividad[]>(
+    []
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
-  const [selectedSocio, setSelectedSocio] = useState<Socio | null>(null);
+  const [selectedActividad, setSelectedActividad] = useState<Actividad | null>(
+    null
+  );
   const [openModalVer, setOpenModalVer] = useState(false);
-  const [socioVer, setSocioVer] = useState<Socio | null>(null);
+  const [actividadVer, setActividadVer] = useState<Actividad | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -36,13 +44,13 @@ export default function SociosPage() {
     }
   }, [status, router]);
 
-  const loadSocios = async () => {
+  const loadActividades = useCallback(async () => {
     setLoading(true);
-    const data = await fetchSocios();
-    setSocios(data ?? []);
-    setFilteredSocios(data ?? []);
+    const data = await fetchAllActividades();
+    setActividades(data ?? []);
+    setFilteredActividades(data ?? []);
     setLoading(false);
-  };
+  }, []);
 
   const handlePrint = () => {
     window.print();
@@ -50,25 +58,21 @@ export default function SociosPage() {
 
   const handleExportExcel = async () => {
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Socios");
+    const worksheet = workbook.addWorksheet("Actividades");
 
     worksheet.columns = [
-      { header: "Nombre completo", key: "nombre_completo", width: 30 },
-      { header: "DNI", key: "dni", width: 20 },
-      { header: "Teléfono", key: "telefono", width: 20 },
-      { header: "Email", key: "email", width: 30 },
-      { header: "Dirección", key: "direccion", width: 40 },
-      { header: "Fecha Alta", key: "fecha_alta", width: 20 },
+      { header: "ID", key: "id", width: 30 },
+      { header: "Nombre de Actividad", key: "nombre_actividad", width: 40 },
+      { header: "Creado en", key: "creado_en", width: 25 },
+      { header: "Actualizado en", key: "actualizado_en", width: 25 },
     ];
 
-    filteredSocios.forEach((s) => {
+    filteredActividades.forEach((a) => {
       worksheet.addRow({
-        nombre_completo: s.nombre_completo,
-        dni: s.dni,
-        telefono: s.telefono,
-        email: s.email,
-        direccion: s.direccion,
-        fecha_alta: s.fecha_alta,
+        id: a.id,
+        nombre_actividad: a.nombre_actividad,
+        creado_en: new Date(a.creado_en).toLocaleString(),
+        actualizado_en: new Date(a.actualizado_en).toLocaleString(),
       });
     });
 
@@ -79,37 +83,48 @@ export default function SociosPage() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Listado_Socios.xlsx";
+    a.download = "Listado_Actividades.xlsx";
     a.click();
     window.URL.revokeObjectURL(url);
   };
 
+  const handleDeleteActividad = async (actividad: Actividad) => {
+    const confirmar = window.confirm(
+      `¿Está seguro de eliminar la actividad "${actividad.nombre_actividad}"?`
+    );
+    if (!confirmar) return;
+
+    try {
+      await deleteActividad(actividad.id);
+      toast.success("Actividad eliminada correctamente");
+      await loadActividades();
+    } catch (error: unknown) {
+      toast.error("Error al eliminar actividad");
+    }
+  };
+
   useEffect(() => {
     if (status === "authenticated") {
-      loadSocios();
+      loadActividades();
     }
-  }, [status]);
+  }, [status, loadActividades]);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
-      setFilteredSocios(socios);
+      setFilteredActividades(actividades);
       return;
     }
 
     const lowercaseSearch = searchTerm.toLowerCase();
-    const filtered = socios.filter(
-      (s) =>
-        s.nombre_completo.toLowerCase().includes(lowercaseSearch) ||
-        s.dni.toLowerCase().includes(lowercaseSearch) ||
-        s.telefono?.toLowerCase().includes(lowercaseSearch) ||
-        s.email?.toLowerCase().includes(lowercaseSearch)
+    const filtered = actividades.filter((a) =>
+      a.nombre_actividad.toLowerCase().includes(lowercaseSearch)
     );
 
-    setFilteredSocios(filtered);
-  }, [searchTerm, socios]);
+    setFilteredActividades(filtered);
+  }, [searchTerm, actividades]);
 
   if (status === "loading" || loading) {
-    return <p>Cargando datos de socios...</p>;
+    return <p>Cargando datos de actividades...</p>;
   }
 
   return (
@@ -117,17 +132,17 @@ export default function SociosPage() {
       <div className="flex w-full min-h-screen">
         <AppSidebar />
         <SidebarInset>
-          <AppHeader title="Socios" />
+          <AppHeader title="Actividades" />
           <main className="flex-1 p-6 space-y-6">
             <Card className="w-full">
               <CardHeader className="flex flex-wrap gap-4 justify-between items-center p-4 border-b md:flex-nowrap">
-                <h2 className="text-xl font-bold">Listado de Socios</h2>
+                <h2 className="text-xl font-bold">Listado de Actividades</h2>
                 <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
                   <div className="relative flex-grow md:flex-grow-0">
                     <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                       type="search"
-                      placeholder="Buscar por nombre, DNI..."
+                      placeholder="Buscar actividad..."
                       className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] w-full"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
@@ -153,44 +168,25 @@ export default function SociosPage() {
                     onClick={() => setOpenModal(true)}
                     className="bg-[#02a8e1] hover:bg-[#0288b1]"
                   >
-                    <span className="hidden sm:inline">Añadir Socio</span>
+                    <span className="hidden sm:inline">Añadir Actividad</span>
                     <span className="sm:hidden">Añadir</span>
                   </Button>
                 </div>
               </CardHeader>
               <CardContent className="p-4 space-y-4">
                 <div className="overflow-x-auto">
-                  <SociosTable
-                    socios={filteredSocios}
+                  <ActividadTable
+                    actividades={filteredActividades}
                     loading={loading}
-                    onEdit={(socio) => {
-                      setSelectedSocio(socio);
+                    onEdit={(actividad) => {
+                      setSelectedActividad(actividad);
                       setOpenModal(true);
                     }}
-                    onView={(socio) => {
-                      setSocioVer(socio);
+                    onView={(actividad) => {
+                      setActividadVer(actividad);
                       setOpenModalVer(true);
                     }}
-                    onDelete={async (socio) => {
-                      const confirmar = window.confirm(
-                        socio.activo
-                          ? "¿Está seguro de desactivar al socio?"
-                          : "¿Está seguro de activar al socio?"
-                      );
-                      if (!confirmar) return;
-
-                      try {
-                        await toggleSocioActivo(socio);
-                        toast.success(
-                          `Socio ${
-                            socio.activo ? "desactivado" : "activado"
-                          } correctamente`
-                        );
-                        await loadSocios();
-                      } catch (err) {
-                        toast.error("Error al actualizar estado del socio");
-                      }
-                    }}
+                    onDelete={handleDeleteActividad}
                   />
                 </div>
               </CardContent>
@@ -200,23 +196,23 @@ export default function SociosPage() {
         </SidebarInset>
       </div>
 
-      <SocioModal
+      <ActividadModal
         open={openModal}
         onClose={() => {
           setOpenModal(false);
-          setSelectedSocio(null);
+          setSelectedActividad(null);
         }}
-        onCreated={loadSocios}
-        socio={selectedSocio}
+        onCreated={loadActividades}
+        actividad={selectedActividad}
       />
 
-      <SocioViewModal
+      <ActividadViewModal
         open={openModalVer}
         onClose={() => {
           setOpenModalVer(false);
-          setSocioVer(null);
+          setActividadVer(null);
         }}
-        socio={socioVer}
+        actividad={actividadVer}
       />
     </SidebarProvider>
   );

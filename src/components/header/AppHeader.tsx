@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useSession } from "next-auth/react";
 import React from "react";
@@ -25,7 +25,9 @@ function useDarkMode() {
   React.useEffect(() => {
     // 1️⃣ Leemos la preferencia guardada o la del sistema
     const saved = localStorage.getItem("theme");
-    const prefersSystem = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersSystem = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
     const initial = saved ? saved === "dark" : prefersSystem;
     setDark(initial);
     document.documentElement.classList.toggle("dark", initial);
@@ -48,9 +50,9 @@ interface AppHeaderProps {
 }
 
 export const AppHeader = ({ title }: AppHeaderProps) => {
-  const router         = useRouter();
+  const router = useRouter();
   const { data: session } = useSession();
-  const { isMobile }   = useSidebar();     // <- por si lo necesitas luego
+  const { isMobile } = useSidebar(); // <- por si lo necesitas luego
   const { dark, toggle } = useDarkMode();
 
   /* --------------------------------------------------------------
@@ -62,18 +64,18 @@ export const AppHeader = ({ title }: AppHeaderProps) => {
   };
 
   const userEmail = session?.user?.email ?? "";
-  const initials  = getInitials(userEmail);
+  const initials = getInitials(userEmail);
 
   return (
     <header className="w-full flex flex-col md:flex-row justify-between items-center py-3 px-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       {/* ---------- Logo y Título ---------- */}
       <div className="flex gap-3 items-center mb-4 md:w-auto md:mb-0">
-        <Image 
-          src="gm_logo.svg" 
-          alt="Gym Master Logo" 
-          width={isMobile ? 60 : 120} 
-          height={isMobile ? 60 : 120} 
-          className="rounded-sm" 
+        <Image
+          src="/gm_logo.svg"
+          alt="Gym Master Logo"
+          width={isMobile ? 60 : 120}
+          height={isMobile ? 60 : 120}
+          className="rounded-sm dark:invert"
         />
         <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
       </div>
@@ -91,10 +93,16 @@ export const AppHeader = ({ title }: AppHeaderProps) => {
                 onClick={toggle}
                 aria-label="Cambiar modo claro/oscuro"
               >
-                {dark ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+                {dark ? (
+                  <Moon className="w-5 h-5" />
+                ) : (
+                  <Sun className="w-5 h-5" />
+                )}
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{dark ? "Modo claro" : "Modo oscuro"}</TooltipContent>
+            <TooltipContent>
+              {dark ? "Modo claro" : "Modo oscuro"}
+            </TooltipContent>
           </Tooltip>
         </TooltipProvider>
 
