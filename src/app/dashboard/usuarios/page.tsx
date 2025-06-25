@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AppHeader } from "@/components/header/AppHeader";
@@ -9,26 +9,31 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Printer, FileSpreadsheet } from "lucide-react";
-import { fetchSocios, toggleSocioActivo } from "@/services/socioService";
-import SocioModal from "@/components/modal/SocioModal";
-import SocioViewModal from "@/components/modal/SocioViewModal";
-import SociosTable, { Socio } from "@/components/tables/SociosTable";
+import {
+  fetchUsuarios,
+  deleteUsuarios,
+  updateUsuarios,
+} from "@/services/usuarioService";
+import UserModal from "@/components/modal/UserModal";
+import UserViewModal from "@/components/modal/UserViewModal";
+import UsersTable from "@/components/tables/UserTable";
+import { Usuario } from "@/interfaces/usuario.interface";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { toast } from "sonner";
 import ExcelJS from "exceljs";
 
-export default function SociosPage() {
+export default function UsuariosPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [socios, setSocios] = useState<Socio[]>([]);
-  const [filteredSocios, setFilteredSocios] = useState<Socio[]>([]);
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const [filteredUsuarios, setFilteredUsuarios] = useState<Usuario[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
-  const [selectedSocio, setSelectedSocio] = useState<Socio | null>(null);
+  const [selectedUsuario, setSelectedUsuario] = useState<Usuario | null>(null);
   const [openModalVer, setOpenModalVer] = useState(false);
-  const [socioVer, setSocioVer] = useState<Socio | null>(null);
+  const [usuarioVer, setUsuarioVer] = useState<Usuario | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -36,13 +41,13 @@ export default function SociosPage() {
     }
   }, [status, router]);
 
-  const loadSocios = async () => {
+  const loadUsuarios = useCallback(async () => {
     setLoading(true);
-    const data = await fetchSocios();
-    setSocios(data ?? []);
-    setFilteredSocios(data ?? []);
+    const data = await fetchUsuarios();
+    setUsuarios(data ?? []);
+    setFilteredUsuarios(data ?? []);
     setLoading(false);
-  };
+  }, []);
 
   const handlePrint = () => {
     window.print();
@@ -50,25 +55,23 @@ export default function SociosPage() {
 
   const handleExportExcel = async () => {
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Socios");
+    const worksheet = workbook.addWorksheet("Usuarios");
 
     worksheet.columns = [
-      { header: "Nombre completo", key: "nombre_completo", width: 30 },
-      { header: "DNI", key: "dni", width: 20 },
-      { header: "Teléfono", key: "telefono", width: 20 },
+      { header: "ID", key: "id", width: 30 },
+      { header: "Nombre", key: "nombre", width: 30 },
       { header: "Email", key: "email", width: 30 },
-      { header: "Dirección", key: "direccion", width: 40 },
-      { header: "Fecha Alta", key: "fecha_alta", width: 20 },
+      { header: "Rol", key: "rol", width: 20 },
+      { header: "Activo", key: "activo", width: 10 },
     ];
 
-    filteredSocios.forEach((s) => {
+    filteredUsuarios.forEach((u) => {
       worksheet.addRow({
-        nombre_completo: s.nombre_completo,
-        dni: s.dni,
-        telefono: s.telefono,
-        email: s.email,
-        direccion: s.direccion,
-        fecha_alta: s.fecha_alta,
+        id: u.id,
+        nombre: u.nombre,
+        email: u.email,
+        rol: u.rol,
+        activo: u.activo ? "Sí" : "No",
       });
     });
 
@@ -79,37 +82,58 @@ export default function SociosPage() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Listado_Socios.xlsx";
+    a.download = "Listado_Usuarios.xlsx";
     a.click();
     window.URL.revokeObjectURL(url);
   };
 
+  const toggleUsuarioActivo = async (usuario: Usuario) => {
+    const confirmar = window.confirm(
+      usuario.activo
+        ? "¿Está seguro de desactivar al usuario?"
+        : "¿Está seguro de activar al usuario?"
+    );
+    if (!confirmar) return;
+
+    try {
+      if (usuario.activo) {
+        await deleteUsuarios(usuario.id);
+        toast.success("Usuario desactivado correctamente");
+      } else {
+        await updateUsuarios(usuario.id, { activo: true });
+        toast.success("Usuario activado correctamente");
+      }
+      await loadUsuarios();
+    } catch (error: unknown) {
+      toast.error("Error al actualizar estado del usuario");
+    }
+  };
+
   useEffect(() => {
     if (status === "authenticated") {
-      loadSocios();
+      loadUsuarios();
     }
-  }, [status]);
+  }, [status, loadUsuarios]);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
-      setFilteredSocios(socios);
+      setFilteredUsuarios(usuarios);
       return;
     }
 
     const lowercaseSearch = searchTerm.toLowerCase();
-    const filtered = socios.filter(
-      (s) =>
-        s.nombre_completo.toLowerCase().includes(lowercaseSearch) ||
-        s.dni.toLowerCase().includes(lowercaseSearch) ||
-        s.telefono?.toLowerCase().includes(lowercaseSearch) ||
-        s.email?.toLowerCase().includes(lowercaseSearch)
+    const filtered = usuarios.filter(
+      (u) =>
+        u.nombre.toLowerCase().includes(lowercaseSearch) ||
+        u.email.toLowerCase().includes(lowercaseSearch) ||
+        u.rol?.toLowerCase().includes(lowercaseSearch)
     );
 
-    setFilteredSocios(filtered);
-  }, [searchTerm, socios]);
+    setFilteredUsuarios(filtered);
+  }, [searchTerm, usuarios]);
 
   if (status === "loading" || loading) {
-    return <p>Cargando datos de socios...</p>;
+    return <p>Cargando datos de usuarios...</p>;
   }
 
   return (
@@ -117,17 +141,17 @@ export default function SociosPage() {
       <div className="flex w-full min-h-screen">
         <AppSidebar />
         <SidebarInset>
-          <AppHeader title="Socios" />
+          <AppHeader title="Usuarios" />
           <main className="flex-1 p-6 space-y-6">
             <Card className="w-full">
               <CardHeader className="flex flex-wrap gap-4 justify-between items-center p-4 border-b md:flex-nowrap">
-                <h2 className="text-xl font-bold">Listado de Socios</h2>
+                <h2 className="text-xl font-bold">Listado de Usuarios</h2>
                 <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
                   <div className="relative flex-grow md:flex-grow-0">
                     <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                       type="search"
-                      placeholder="Buscar por nombre, DNI..."
+                      placeholder="Buscar por nombre, email..."
                       className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] w-full"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
@@ -153,44 +177,26 @@ export default function SociosPage() {
                     onClick={() => setOpenModal(true)}
                     className="bg-[#02a8e1] hover:bg-[#0288b1]"
                   >
-                    <span className="hidden sm:inline">Añadir Socio</span>
+                    <span className="hidden sm:inline">Añadir Usuario</span>
                     <span className="sm:hidden">Añadir</span>
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="p-4 space-y-4">
+
+              <CardContent className="space-y-4">
                 <div className="overflow-x-auto">
-                  <SociosTable
-                    socios={filteredSocios}
+                  <UsersTable
+                    usuarios={filteredUsuarios}
                     loading={loading}
-                    onEdit={(socio) => {
-                      setSelectedSocio(socio);
+                    onEdit={(usuario) => {
+                      setSelectedUsuario(usuario);
                       setOpenModal(true);
                     }}
-                    onView={(socio) => {
-                      setSocioVer(socio);
+                    onView={(usuario) => {
+                      setUsuarioVer(usuario);
                       setOpenModalVer(true);
                     }}
-                    onDelete={async (socio) => {
-                      const confirmar = window.confirm(
-                        socio.activo
-                          ? "¿Está seguro de desactivar al socio?"
-                          : "¿Está seguro de activar al socio?"
-                      );
-                      if (!confirmar) return;
-
-                      try {
-                        await toggleSocioActivo(socio);
-                        toast.success(
-                          `Socio ${
-                            socio.activo ? "desactivado" : "activado"
-                          } correctamente`
-                        );
-                        await loadSocios();
-                      } catch (err) {
-                        toast.error("Error al actualizar estado del socio");
-                      }
-                    }}
+                    onDelete={toggleUsuarioActivo}
                   />
                 </div>
               </CardContent>
@@ -200,23 +206,23 @@ export default function SociosPage() {
         </SidebarInset>
       </div>
 
-      <SocioModal
+      <UserModal
         open={openModal}
         onClose={() => {
           setOpenModal(false);
-          setSelectedSocio(null);
+          setSelectedUsuario(null);
         }}
-        onCreated={loadSocios}
-        socio={selectedSocio}
+        onCreated={loadUsuarios}
+        usuario={selectedUsuario}
       />
 
-      <SocioViewModal
+      <UserViewModal
         open={openModalVer}
         onClose={() => {
           setOpenModalVer(false);
-          setSocioVer(null);
+          setUsuarioVer(null);
         }}
-        socio={socioVer}
+        usuario={usuarioVer}
       />
     </SidebarProvider>
   );

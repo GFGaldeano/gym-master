@@ -1,19 +1,25 @@
 "use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import SocioForm from "../forms/SocioForm";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import UserForm from "../forms/UserForm";
 import FechaHora from "@/components/ui/FechaHora";
+import { Usuario } from "@/interfaces/usuario.interface";
 
-export default function SocioModal({
+export default function UserModal({
   open,
   onClose,
   onCreated,
-  socio,
+  usuario,
 }: {
   open: boolean;
   onClose: () => void;
   onCreated: () => void;
-  socio?: any | null;
+  usuario?: Usuario | null;
 }) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -21,17 +27,18 @@ export default function SocioModal({
         <DialogHeader>
           <div className="flex gap-4 justify-between items-center w-full">
             <DialogTitle>
-              {socio ? "Editar Socio" : "Nuevo Socio"}
+              {usuario ? "Editar Usuario" : "Nuevo Usuario"}{" "}
             </DialogTitle>
             <FechaHora />
           </div>
         </DialogHeader>
-        <SocioForm
-          socio={socio}
+        <UserForm
+          usuario={usuario}
           onCreated={async () => {
             await onCreated();
             onClose();
           }}
+          onCancel={onClose}
         />
       </DialogContent>
     </Dialog>
