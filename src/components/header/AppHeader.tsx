@@ -1,11 +1,19 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import React from "react";
 import { useSidebar } from "../ui/sidebar";
 import { Search, Bell, Settings, Sun, Moon } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
@@ -23,21 +31,18 @@ function useDarkMode() {
   const [dark, setDark] = React.useState(false);
 
   React.useEffect(() => {
-    // 1️⃣ Leemos la preferencia guardada o la del sistema
-    const saved = localStorage.getItem("theme");
-    const prefersSystem = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    const initial = saved ? saved === "dark" : prefersSystem;
-    setDark(initial);
-    document.documentElement.classList.toggle("dark", initial);
+    const savedSessionTheme = sessionStorage.getItem("theme");
+    const initialDark = savedSessionTheme === "dark";
+
+    setDark(initialDark);
+    document.documentElement.classList.toggle("dark", initialDark);
   }, []);
 
   const toggle = React.useCallback(() => {
     setDark((prev) => {
       const next = !prev;
       document.documentElement.classList.toggle("dark", next);
-      localStorage.setItem("theme", next ? "dark" : "light");
+      sessionStorage.setItem("theme", next ? "dark" : "light");
       return next;
     });
   }, []);
@@ -61,6 +66,10 @@ export const AppHeader = ({ title }: AppHeaderProps) => {
   const getInitials = (email = "") => {
     const parts = email.split("@")[0].split(".");
     return parts.map((p) => p[0]?.toUpperCase() || "").join("") || "U";
+  };
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/auth/login" });
   };
 
   const userEmail = session?.user?.email ?? "";
@@ -159,21 +168,20 @@ export const AppHeader = ({ title }: AppHeaderProps) => {
         </TooltipProvider>
 
         {/* Avatar usuario */}
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="cursor-pointer">
-                <Avatar
-                  // src={session?.user?.image ?? undefined}
-                  // alt={userEmail}
-                  // initials={initials}
-                  size={32}
-                />
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>{userEmail}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="cursor-pointer">
+              <Avatar size={32} />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>{userEmail}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout}>
+              Cerrar sesión
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );
