@@ -1,0 +1,226 @@
+{
+    "semana_1": {
+        "sábado": [
+            {
+                "grupo_muscular": "Espalda",
+                "ejercicio": "Remo con barra",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://ejemplo.com/remo.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl de bíceps",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/curl.gif"
+            }
+        ],
+        "miércoles": [
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press banca",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://ejemplo.com/press.gif"
+            },
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Extensión de tríceps",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/triceps.gif"
+            }
+        ],
+        "jueves": [
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Elevaciones laterales",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/hombros.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl de bíceps",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/curl.gif"
+            }
+        ]
+    },
+    "semana_2": {
+        "martes": [
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Elevaciones laterales",
+                "series": 3,
+                "repeticiones": 10,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/hombros.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Sentadilla",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/sentadilla.gif"
+            }
+        ],
+        "miércoles": [
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Extensión de tríceps",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://ejemplo.com/triceps.gif"
+            },
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press banca",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/press.gif"
+            }
+        ],
+        "sábado": [
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Elevaciones laterales",
+                "series": 3,
+                "repeticiones": 10,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/hombros.gif"
+            },
+            {
+                "grupo_muscular": "Espalda",
+                "ejercicio": "Remo con barra",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://ejemplo.com/remo.gif"
+            }
+        ]
+    },
+    "semana_3": {
+        "viernes": [
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl de bíceps",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://ejemplo.com/curl.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Sentadilla",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/sentadilla.gif"
+            }
+        ],
+        "miércoles": [
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Extensión de tríceps",
+                "series": 4,
+                "repeticiones": 10,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/triceps.gif"
+            },
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press banca",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://ejemplo.com/press.gif"
+            }
+        ],
+        "jueves": [
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Elevaciones laterales",
+                "series": 4,
+                "repeticiones": 10,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/hombros.gif"
+            },
+            {
+                "grupo_muscular": "Espalda",
+                "ejercicio": "Remo con barra",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://ejemplo.com/remo.gif"
+            }
+        ]
+    },
+    "semana_4": {
+        "jueves": [
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Elevaciones laterales",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://ejemplo.com/hombros.gif"
+            },
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Extensión de tríceps",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/triceps.gif"
+            }
+        ],
+        "viernes": [
+            {
+                "grupo_muscular": "Espalda",
+                "ejercicio": "Remo con barra",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/remo.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl de bíceps",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://ejemplo.com/curl.gif"
+            }
+        ],
+        "lunes": [
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press banca",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://ejemplo.com/press.gif"
+            },
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Extensión de tríceps",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://ejemplo.com/triceps.gif"
+            }
+        ]
+    }
+}
