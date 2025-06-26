@@ -13,7 +13,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    if (!body.socio_id || !body.total || !body.fecha) {
+    if ( !body.venta || !body.venta.socio_id || !body.venta.fecha || !body.venta_detalle) {
       return NextResponse.json({ error: "Todos los campos son obligatorios" }, { status: 400 });
     }
     const venta = await createVenta(body);

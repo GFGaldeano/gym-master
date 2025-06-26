@@ -31,3 +31,27 @@ export const deleteProducto = async (id: string): Promise<Producto[]> => {
   if (!data || data.length === 0) throw new Error("No se encontró producto con ese id");
   return data as Producto[];
 };
+
+export const verificoStock = async (producto_id: string, cantidad: number): Promise<{ precio_unitario: number; tieneStock: boolean }> => {
+  // Obtener el producto
+  const { data, error } = await supabase
+    .from('producto')
+    .select('id, nombre, stock, precio')
+    .eq('id', producto_id)
+    .single();
+  if (error || !data) {
+    throw new Error('Producto no encontrado');
+  }
+  if (data.stock < cantidad) {
+    return { precio_unitario: data.precio, tieneStock: false };
+  }
+  // Descontar stock
+  const { error: updateError } = await supabase
+    .from('producto')
+    .update({ stock: data.stock - cantidad })
+    .eq('id', producto_id);
+  if (updateError) {
+    throw new Error('Error al actualizar el stock del producto');
+  }
+  return { precio_unitario: data.precio, tieneStock: true };
+};

@@ -1,5 +1,6 @@
 import { supabase } from "./supabaseClient";
 import { VentaDetalle, CreateVentaDetalleDto, UpdateVentaDetalleDto } from "../interfaces/venta_detalle.interface";
+import { verificoStock } from "./productoService";
 
 export const getAllVentaDetalles = async (): Promise<VentaDetalle[]> => {
   const { data, error } = await supabase.from("venta_detalle").select();
@@ -7,9 +8,30 @@ export const getAllVentaDetalles = async (): Promise<VentaDetalle[]> => {
   return data as VentaDetalle[];
 };
 
-export const createVentaDetalle = async (payload: CreateVentaDetalleDto): Promise<VentaDetalle> => {
-  const { data, error } = await supabase.from("venta_detalle").insert(payload).select().single();
-  if (error) throw new Error(error.message);
+export const createVentaDetalle = async (payload: CreateVentaDetalleDto, venta_id : string): Promise<VentaDetalle|false> => {
+    //valido stock y traigo precio 
+  const { precio_unitario, tieneStock } = await verificoStock(payload.producto_id, payload.cantidad);
+  
+  if (!tieneStock) {
+    console.log("Stock insuficiente del producto");
+    return false;
+  }
+  //calcular subtotal
+ // const subtotal = precio_unitario * payload.cantidad;
+  //console.log(subtotal);
+  
+  //guardo detalle de venta
+  const { data, error } = await supabase
+    .from("venta_detalle")
+    .insert({ ...payload, precio_unitario, venta_id })
+    .select()
+    .single();
+  if (error) {
+   console.log(error.message);
+   //devuelvo las productos al stock
+   await updateVentaDetalle(payload.producto_id, { cantidad: payload.cantidad });
+    return false;
+  }
   return data as VentaDetalle;
 };
 
