@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { SidebarSection } from "./SidebarSection";
 import { sections } from "./sidebarConfig";
 import { useIsMobile } from "@/hooks/use-mobile";
+import "@/app/styles/scrollbar.css";
 
 export const AppSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
