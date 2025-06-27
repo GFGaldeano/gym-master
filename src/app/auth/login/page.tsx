@@ -17,7 +17,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function useDarkMode() {
   const [dark, setDark] = useState(false);
@@ -48,7 +53,9 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState<"admin" | "socio" | "usuario" | "">(
+    ""
+  );
 
   const [loading, setLoading] = useState(false);
   const { dark, toggle } = useDarkMode();
@@ -56,7 +63,7 @@ export default function LoginPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!email || !password || !userType) {
       toast.error("Todos los campos son obligatorios");
       return;
     }
@@ -66,6 +73,7 @@ export default function LoginPage() {
     const res = await signIn("credentials", {
       email,
       password,
+      userType,
       redirect: false,
     });
 
@@ -73,7 +81,11 @@ export default function LoginPage() {
       toast.success("Inicio de sesión exitoso");
       router.replace("/dashboard");
     } else {
-      toast.error("Correo o contraseña incorrectos");
+      let errorMessage = "Correo o contraseña incorrectos";
+      if (res?.error) {
+        errorMessage = res.error;
+      }
+      toast.error(errorMessage);
     }
 
     setLoading(false);
@@ -160,14 +172,18 @@ export default function LoginPage() {
                 <select
                   id="userType"
                   value={userType}
-                  onChange={(e) => setUserType(e.target.value)}
+                  onChange={(e) =>
+                    setUserType(
+                      e.target.value as "admin" | "socio" | "usuario" | ""
+                    )
+                  }
                   className="px-3 py-2 text-sm rounded-md border shadow-sm border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
                   required
                 >
                   <option value="" disabled>
                     Seleccione el tipo de usuario
                   </option>
-                  <option value="administrador">Administrador</option>
+                  <option value="admin">Administrador</option>
                   <option value="socio">Socio</option>
                   <option value="usuario">Usuario</option>
                 </select>
