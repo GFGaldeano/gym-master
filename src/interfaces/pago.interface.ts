@@ -1,0 +1,28 @@
+export interface Pago {
+  id: string;
+  socio_id: string;
+  cuota_id: string;
+  fecha_pago: string;
+  fecha_vencimiento: string;
+  monto_pagado: number;
+  total: number;
+  registrado_por: string;
+}
+
+export interface CreatePagoDto {
+  socio_id: string;
+  cuota_id: string;
+  fecha_pago: string;
+  fecha_vencimiento: string;
+  monto_pagado: number;
+  registrado_por: string;
+}
+
+export interface UpdatePagoDto {
+  socio_id?: string;
+  cuota_id?: string;
+  fecha_pago?: string;
+  fecha_vencimiento?: string;
+  monto_pagado?: number;
+  registrado_por?: string;
+}

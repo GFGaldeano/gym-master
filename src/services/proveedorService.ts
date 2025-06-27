@@ -10,24 +10,26 @@ export const getAllProveedores = async (): Promise<Proveedor[]> => {
   return data as Proveedor[];
 };
 
-export const createProveedor = async (payload: CreateProveedorDto): Promise<Proveedor[]> => {
+export const createProveedor = async (payload: CreateProveedorDto): Promise<Proveedor> => {
   const { data, error } = await supabase
     .from("proveedor")
     .insert(payload)
-    .select();
+    .select()
+    .single();
   if (error) throw new Error(error.message);
-  return data as Proveedor[];
+  return data as Proveedor;
 };
 
-export const updateProveedor = async (id: string, updateData: UpdateProveedorDto): Promise<Proveedor[]> => {
+export const updateProveedor = async (id: string, updateData: UpdateProveedorDto): Promise<Proveedor> => {
   const { data, error } = await supabase
     .from("proveedor")
     .update(updateData)
     .eq("id", id)
-    .select();
+    .select()
+    .single();
   if (error) throw new Error(error.message);
   if (!data || data.length === 0) throw new Error("No se encontró proveedor con ese id");
-  return data as Proveedor[];
+  return data as Proveedor;
 };
 
 export const deleteProveedor = async (id: string): Promise<Proveedor[]> => {
@@ -39,4 +41,15 @@ export const deleteProveedor = async (id: string): Promise<Proveedor[]> => {
   if (error) throw new Error(error.message);
   if (!data || data.length === 0) throw new Error("No se encontró proveedor con ese id");
   return data as Proveedor[];
+};
+
+export const existeProveedor = async (id: string) => {
+  const { data, error } = await supabase
+    .from('proveedor')
+    .select('id')
+    .eq('id', id)
+    .single();
+    
+  if (error || !data) return false;
+  return true;
 };
