@@ -1,11 +1,11 @@
-import NextAuth from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
-import { createClient } from "@supabase/supabase-js"
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+);
 
 const handler = NextAuth({
   providers: [
@@ -17,50 +17,79 @@ const handler = NextAuth({
         userType: { label: "Tipo de usuario", type: "text" },
       },
       async authorize(credentials) {
-        const { email, password, userType } = credentials as {
-          email: string
-          password: string
-          userType: string
+        const email = credentials?.email as string;
+        const password = credentials?.password as string;
+        const requestedUserType = (credentials?.userType as string) || "";
+
+        if (!email || !password) {
+          throw new Error(
+            "Credenciales incompletas: Email y contraseña son obligatorios."
+          );
         }
 
-        // 1. Validar email y password con Supabase Auth
-        const { data: { user }, error: signInError } = await supabase.auth.signInWithPassword({
+        const {
+          data: { user },
+          error: signInError,
+        } = await supabase.auth.signInWithPassword({
           email,
           password,
-        })
+        });
 
         if (signInError || !user) {
-          console.error("Supabase sign-in error:", signInError)
-          return null
+          throw new Error(
+            "Credenciales inválidas: Correo o contraseña incorrectos."
+          );
         }
 
-        // 2. Consultar info extra desde la tabla de usuarios
         const { data: userData, error: fetchError } = await supabase
           .from("usuario")
-          .select("*")
+          .select("id, nombre, email, rol")
           .eq("email", email)
-          .single()
+          .single();
 
         if (fetchError || !userData) {
-          console.error("Error al obtener datos del usuario:", fetchError)
-          return null
+          throw new Error(
+            "Datos de perfil de usuario no encontrados en la base de datos."
+          );
         }
 
-        // 3. Validar que coincida el tipo
-        if (userData.tipo !== userType) {
-          console.error("Tipo de usuario incorrecto")
-          return null
+        // Corrección: Definir explícitamente el tipo de finalUserType
+        let finalUserType: "admin" | "socio" | "usuario";
+
+        if (userData.rol === "admin") {
+          if (
+            requestedUserType === "admin" ||
+            requestedUserType === "socio" ||
+            requestedUserType === "usuario"
+          ) {
+            finalUserType = requestedUserType;
+          } else {
+            // Si el requestedUserType no es válido, por defecto lo establecemos a 'admin'
+            finalUserType = "admin";
+          }
+        } else {
+          // Aseguramos que userData.rol es uno de los tipos esperados para la asignación
+          if (userData.rol === "socio" || userData.rol === "usuario") {
+            if (userData.rol !== requestedUserType) {
+              throw new Error(
+                `Tipo de usuario incorrecto. Rol de DB (${userData.rol}) no coincide con el tipo solicitado (${requestedUserType}).`
+              );
+            }
+            finalUserType = userData.rol;
+          } else {
+            // Caso inesperado donde el rol de la DB no es 'admin', 'socio' o 'usuario'.
+            throw new Error("Rol de usuario inválido en la base de datos.");
+          }
         }
 
-        // 4. Retornar el objeto user para usarlo en el JWT
         return {
-          id: userData.id,
+          id: user.id,
           email: userData.email,
           name: userData.nombre,
-          userType: userData.tipo,
-        }
-      }
-    })
+          userType: finalUserType,
+        };
+      },
+    }),
   ],
   session: {
     strategy: "jwt",
@@ -68,23 +97,23 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.userType = user.userType
-        token.id = user.id
-        token.name = user.name
+        token.userType = user.userType;
+        token.id = user.id;
+        token.name = user.name;
       }
-      return token
+      return token;
     },
     async session({ session, token }) {
-      session.user.userType = token.userType as string
-      session.user.id = token.id as string
-      session.user.name = token.name as string
-      return session
-    }
+      session.user.userType = token.userType as "admin" | "socio" | "usuario";
+      session.user.id = token.id as string;
+      session.user.name = token.name as string;
+      return session;
+    },
   },
   pages: {
-    signIn: "/auth/login", // Ruta personalizada de login
+    signIn: "/auth/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
-})
+});
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };
