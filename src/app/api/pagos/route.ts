@@ -3,7 +3,11 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
+    console.log("aa");
+    
     const pagos = await getAllPagos();
+    console.log(pagos);
+    
     return NextResponse.json({ data: pagos }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ error: "Error al obtener los pagos" }, { status: 500 });
