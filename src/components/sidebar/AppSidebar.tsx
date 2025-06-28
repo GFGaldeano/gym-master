@@ -1,19 +1,49 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Sidebar, SidebarContent, useSidebar } from "../ui/sidebar";
+import { Sidebar } from "../ui/sidebar";
 import { Menu, X } from "lucide-react";
 import { SidebarSection } from "./SidebarSection";
-import { sections } from "./sidebarConfig";
 import { useIsMobile } from "@/hooks/use-mobile";
+import "@/app/styles/scrollbar.css";
+import { useSession } from "next-auth/react";
+import { useSidebarMenu } from "@/hooks/useSidebarSection";
+import { usePathname } from "next/navigation";
 
 export const AppSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
-  /*   const { isMobile } = useSidebar(); */
+  const { data: session, status } = useSession();
+  const pathname = usePathname();
 
-  useEffect(() => {
-    console.log("Es mobile:", isMobile);
-  }, [isMobile]);
+  const userType = session?.user?.userType;
+  const menuSections = useSidebarMenu(userType);
+
+  useEffect(() => {}, [isMobile]);
+
+  if (status === "loading") {
+    return (
+      <aside
+        style={{
+          width: "240px",
+          background: "#2c3e50",
+          color: "#ecf0f1",
+          padding: "20px",
+          minHeight: "100vh",
+          boxShadow: "2px 0 5px rgba(0,0,0,0.2)",
+        }}
+      >
+        <div
+          style={{ textAlign: "center", color: "#1abc9c", fontSize: "1.2em" }}
+        >
+          Cargando menú...
+        </div>
+      </aside>
+    );
+  }
+
+  if (status === "unauthenticated" || !session) {
+    return null;
+  }
 
   return (
     <>
@@ -40,29 +70,27 @@ export const AppSidebar = () => {
                 isOpen ? "translate-x-0" : "-translate-x-full"
               } bg-[var(--color-sidebar)]`:`w-64 min-w-[16rem] max-w-[16rem] h-auto border-r border-b rounded-lg z-30 overflow-y-auto max-h-screen bg-[var(--color-sidebar)] text-[var(--color-sidebar-foreground)]`} sidebar-scrollbar`}
       >
-        <SidebarContent>
-          {isMobile && (
-            <div className="absolute top-4 right-4 z-50">
-              <button onClick={() => setIsOpen(false)}>
-                <X size={24} />
-              </button>
-            </div>
-          )}
-          <div className="mt-5 text-xl font-semibold tracking-tight text-center">
-            Gym Master
+        {isMobile && (
+          <div className="absolute top-4 right-4 z-50">
+            <button onClick={() => setIsOpen(false)}>
+              <X size={24} />
+            </button>
           </div>
+        )}
+        <div className="mt-5 text-xl font-semibold tracking-tight text-center">
+          Gym Master
+        </div>
 
-          {sections.map((section, idx) => (
-            <SidebarSection
-              key={idx}
-              title={section.title}
-              icon={section.icon}
-              items={section.items}
-              isMobile={isMobile}
-              closeSidebar={() => setIsOpen(false)}
-            />
-          ))}
-        </SidebarContent>
+        {menuSections.map((section, idx) => (
+          <SidebarSection
+            key={idx}
+            title={section.title}
+            icon={section.icon}
+            items={section.items}
+            isMobile={isMobile}
+            closeSidebar={() => setIsOpen(false)}
+          />
+        ))}
       </Sidebar>
     </>
   );
