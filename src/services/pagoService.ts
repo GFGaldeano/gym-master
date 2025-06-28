@@ -1,5 +1,5 @@
 import { supabase } from "./supabaseClient";
-import { Pago, CreatePagoDto, UpdatePagoDto, ResponsePagosDTO } from "../interfaces/pago.interface";
+import { Pago, CreatePagoDto, UpdatePagoDto, ResponsePago } from "../interfaces/pago.interface";
 import { Socio } from "@/interfaces/socio.interface";
 
 /*export const getAllPagos = async (): Promise<Pago[]> => {
@@ -8,8 +8,7 @@ import { Socio } from "@/interfaces/socio.interface";
   return data as Pago[];
 };
 */
-export const getAllPagos = async () : Promise<ResponsePagosDTO[]> => {
-    console.log("a");
+export const getAllPagos = async () : Promise<ResponsePago[]> => {
     
   const { data, error } = await supabase
   .from("pago")
@@ -21,10 +20,14 @@ export const getAllPagos = async () : Promise<ResponsePagosDTO[]> => {
     
 
   if (error) throw new Error(error.message);
-  
-  console.log(data,error);
 
-  const response : ResponsePagosDTO[] = data.map(pago=>({
+  const response = responseAllPagos(data as ResponsePago[]);
+  return response;
+};
+
+//Genere esta funcion para transformar el formato de la respuesta y simplificar el uso en la funcion del get
+const responseAllPagos = (data : ResponsePago[]) :  ResponsePago[] =>{
+ const response = data.map(pago=>({
     id: pago.id,
     fecha_pago: pago.fecha_pago,
     fecha_vencimiento: pago.fecha_vencimiento,
@@ -43,11 +46,8 @@ export const getAllPagos = async () : Promise<ResponsePagosDTO[]> => {
         nombre_completo: pago.socio.nombre_completo
     }
   }));
-  
-  console.log(response);
-  
   return response;
-};
+}
 
 export const createPago = async (payload: CreatePagoDto): Promise<Pago> => {
   const { data, error } = await supabase.from("pago").insert(payload).select().single();

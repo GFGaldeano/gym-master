@@ -28,7 +28,7 @@ export interface UpdatePagoDto {
   registrado_por?: string;
 }
 
-export interface ResponsePagosDTO {
+export interface ResponsePago {
     id: string;
     fecha_pago: string;
     fecha_vencimiento: string;
