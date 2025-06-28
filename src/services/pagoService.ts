@@ -63,8 +63,8 @@ export const updatePago = async (id: string, updateData: UpdatePagoDto): Promise
 };
 
 export const deletePago = async (id: string): Promise<Pago> => {
-  const { data, error } = await supabase.from("pago").delete().eq("id", id).select().single();
+  const { data, error } = await supabase.from("pago").update({ activo: false }).eq("id", id).select().single();
   if (error) throw new Error(error.message);
-  if (!data || data.length === 0) throw new Error("No se encontró pago con ese id");
+  if (!data) throw new Error("No se encontró pago con ese id");
   return data as Pago;
 };

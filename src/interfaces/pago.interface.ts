@@ -7,6 +7,7 @@ export interface Pago {
   monto_pagado: number;
   total: number;
   registrado_por: string;
+  activo: boolean;
 }
 
 export interface CreatePagoDto {
@@ -26,6 +27,7 @@ export interface UpdatePagoDto {
   fecha_vencimiento?: string;
   monto_pagado?: number;
   registrado_por?: string;
+  activo?: boolean;
 }
 
 export interface ResponsePago {
