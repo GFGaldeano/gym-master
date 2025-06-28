@@ -1,0 +1,34 @@
+export interface Socio {
+  id: string;
+  usuario_id?: string;
+  nombre_completo: string;
+  dni: string;
+  direccion?: string;
+  telefono?: string;
+  email?: string;
+  foto?: string;
+  activo?: boolean;
+  fecha_baja?: string;
+}
+
+export interface CreateSocioDto {
+  usuario_id?: string;
+  nombre_completo: string;
+  dni: string;
+  direccion?: string;
+  telefono?: string;
+  email?: string;
+  foto?: string;
+}
+
+export interface UpdateSocioDto {
+  usuario_id?: string;
+  nombre_completo?: string;
+  dni?: string;
+  direccion?: string;
+  telefono?: string;
+  email?: string;
+  foto?: string;
+  activo?: boolean;
+  fecha_baja?: string;
+}

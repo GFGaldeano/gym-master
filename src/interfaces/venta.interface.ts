@@ -5,6 +5,7 @@ export interface Venta {
   socio_id: string;
   total: number;
   fecha: string;
+  activo: boolean;
 }
 
 export interface CreateVentaDto {
@@ -21,6 +22,7 @@ export interface UpdateVentaDto {
   socio_id?: string;
   total?: number;
   fecha?: string;
+  activo?: boolean;
 }
 
 export interface ResponseVenta{

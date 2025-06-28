@@ -3,6 +3,7 @@ export interface OtrosGastos {
   descripcion: string;
   monto: number;
   fecha: string;
+  activo: boolean;
 }
 
 export interface CreateOtrosGastosDto {
@@ -15,4 +16,5 @@ export interface UpdateOtrosGastosDto {
   descripcion?: string;
   monto?: number;
   fecha?: string;
+  activo?: boolean;
 }
