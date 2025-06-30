@@ -53,3 +53,16 @@ export const existeProveedor = async (id: string) => {
   if (error || !data) return false;
   return true;
 };
+
+export const getProveedorById = async (id: string): Promise<Proveedor> => {
+  const { data, error } = await supabase
+    .from("proveedor")
+    .select()
+    .eq("id", id)
+    .single();
+  if (error) {
+    console.log(error.message);
+    throw new Error("No se encontró el proveedor con ese id");
+  }
+  return data as Proveedor;
+};

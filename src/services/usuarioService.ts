@@ -62,3 +62,23 @@ export const deleteUsuarios = async (id: string): Promise<Usuario[]> => {
   return data as Usuario[];
 };
 
+export const getUsuarioById = async(id:string): Promise <ResponseUsuario> => {
+  const{data,error} = await supabase
+  .from("usuario")
+  .select()
+  .eq("id",id)
+  .single();
+
+if(error) {
+  console.log(error.message);
+  throw new Error ("Hubo un error al obtener el usuario")
+};
+const response : ResponseUsuario = {
+  id: data.id,
+  nombre: data.nombre,
+  email: data.email,
+  rol: data.rol,
+  activo: data.activo
+} 
+return response;
+} 

@@ -31,7 +31,7 @@ await updateVenta(data.id, { total: det_venta.subtotal });
     id: data.id,
     venta_detalle: det_venta
   } 
-  return response as ResponseVenta;
+  return response;
 };
 
 export const updateVenta = async (id: string, updateData: UpdateVentaDto): Promise<Venta> => {
@@ -46,4 +46,19 @@ export const deleteVenta = async (id: string): Promise<Venta> => {
   if (error) throw new Error(error.message);
   if (!data) throw new Error("No se encontró venta con ese id");
   return data as Venta;
+};
+
+//TODO: FALTA IMPLEMENTAR BIDIRECCIONALIDAD EN DETALLE VENTA PARA MOSTRAR AL TRAER LA VENTA
+export const getVentaById = async (id: string): Promise<Venta> => {
+  const { data, error } = await supabase
+    .from("venta")
+    .select('*')
+    .eq("id", id)
+    .single();
+  if (error) {
+    console.log(error.message);
+    throw new Error("No se encontró la venta con ese id");
+  }
+
+  return data;
 };

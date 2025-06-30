@@ -68,3 +68,39 @@ export const deletePago = async (id: string): Promise<Pago> => {
   if (!data) throw new Error("No se encontró pago con ese id");
   return data as Pago;
 };
+
+export const getPagoById = async (id: string): Promise<ResponsePago> => {
+  const { data, error } = await supabase
+    .from("pago")
+      .select(`*, 
+    socio: socio_id ( id_socio, nombre_completo ),
+    cuota: cuota_id (id, descripcion, fecha_fin),
+    registrado_por: registrado_por( id, nombre )
+    `)
+    .eq("id", id)
+    .single();
+  if (error) {
+    console.log(error.message);
+    throw new Error("No se encontró el pago con ese id");
+  }
+  const response = {
+    id: data.id,
+    fecha_pago: data.fecha_pago,
+    fecha_vencimiento: data.fecha_vencimiento,
+    monto_pagado: data.monto_pagado,
+    total: data.total,
+    registrado_por:{
+        id: data.registrado_por.id,
+        nombre: data.registrado_por.nombre
+    },
+    cuota:{
+        id: data.cuota.id,
+        descripcion: data.cuota.descripcion
+    },
+    socio:{
+        id_socio: data.socio.id_socio,
+        nombre_completo: data.socio.nombre_completo
+    }
+  };
+  return response;
+};
