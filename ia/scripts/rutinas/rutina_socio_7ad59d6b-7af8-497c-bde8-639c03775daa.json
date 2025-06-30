@@ -1,0 +1,610 @@
+{
+    "semana_1": {
+        "jueves": [
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Hack",
+                "series": 4,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Peso muerto con mancuernas",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Aductores en máquina",
+                "series": 4,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Pantorrilla parado",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Sillón de cuádriceps",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Pantorrilla sentado",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ],
+        "martes": [
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Trapecio con mancuernas",
+                "series": 3,
+                "repeticiones": 15,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Trapecio con barra",
+                "series": 4,
+                "repeticiones": 10,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Press en multifuerza",
+                "series": 4,
+                "repeticiones": 10,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/bf/23/46/bf234694538c4fbe9f537b53fdd6212f.gif"
+            },
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Posterior con soga en polea",
+                "series": 4,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Vuelo frontal con mancuernas",
+                "series": 3,
+                "repeticiones": 15,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Vuelo lateral con mancuernas",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ],
+        "lunes": [
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press inclinado con mancuernas",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/74/3e/ed/743eed503dd2532c264f67e7e83df3e9.gif"
+            },
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press declinado con barra",
+                "series": 3,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/5f/fc/f3/5ffcf3533606a3b0e3c31df38e9f10ec.gif"
+            },
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Cruce de polea",
+                "series": 3,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/8f/f7/f3/8ff7f340b05c33bb5e26c1691b6503a4.gif"
+            },
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press inclinado con barra",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/91/c6/b7/91c6b7efb6b64992d871a2f3e52904f1.gif"
+            },
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Tríceps en polea agarre triángulo",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Tríceps en banco 90°",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Tríceps en polea con soga",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Rompe cráneo",
+                "series": 3,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ]
+    },
+    "semana_2": {
+        "miércoles": [
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl con barra",
+                "series": 3,
+                "repeticiones": 10,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl concentrado",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Martillo con mancuernas",
+                "series": 3,
+                "repeticiones": 10,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl en banco inclinado con mancuernas",
+                "series": 4,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl en polea",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ],
+        "jueves": [
+            {
+                "grupo_muscular": "Espalda",
+                "ejercicio": "Dominadas en polea",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Espalda",
+                "ejercicio": "Remo con barra T",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Espalda",
+                "ejercicio": "Remo con mancuerna",
+                "series": 3,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Espalda",
+                "ejercicio": "Dominadas libres",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Estocadas caminando",
+                "series": 4,
+                "repeticiones": 10,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Pantorrilla sentado",
+                "series": 3,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Sentadilla",
+                "series": 4,
+                "repeticiones": 10,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Sumo con barra",
+                "series": 4,
+                "repeticiones": 15,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ],
+        "martes": [
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Femorales en polea",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Sillón de cuádriceps",
+                "series": 3,
+                "repeticiones": 10,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Pantorrilla parado",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Prensa",
+                "series": 4,
+                "repeticiones": 10,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Pantorrilla sentado",
+                "series": 4,
+                "repeticiones": 10,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Piernas",
+                "ejercicio": "Sumo con barra",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ]
+    },
+    "semana_3": {
+        "martes": [
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Tríceps en polea con soga",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Rompe cráneo",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Tríceps en banco 90°",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Tríceps",
+                "ejercicio": "Tríceps en polea agarre triángulo",
+                "series": 3,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Press en multifuerza",
+                "series": 3,
+                "repeticiones": 10,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/bf/23/46/bf234694538c4fbe9f537b53fdd6212f.gif"
+            },
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Trapecio con mancuernas",
+                "series": 3,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Posterior con soga en polea",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Hombros",
+                "ejercicio": "Trapecio con barra",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ],
+        "lunes": [
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press inclinado con mancuernas",
+                "series": 3,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/74/3e/ed/743eed503dd2532c264f67e7e83df3e9.gif"
+            },
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press plano con mancuernas",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f6/5d/58/f65d58bb9ad43789480be5aeb3246905.gif"
+            },
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Fondos",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/10/30/3f/10303f2c28292bd17c62a4eabfc9827f.gif"
+            },
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press plano con barra",
+                "series": 4,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Press declinado con barra",
+                "series": 3,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/5f/fc/f3/5ffcf3533606a3b0e3c31df38e9f10ec.gif"
+            },
+            {
+                "grupo_muscular": "Pecho",
+                "ejercicio": "Cruce de polea",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/8f/f7/f3/8ff7f340b05c33bb5e26c1691b6503a4.gif"
+            }
+        ],
+        "miércoles": [
+            {
+                "grupo_muscular": "Glúteos",
+                "ejercicio": "Patada de glúteos",
+                "series": 4,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Glúteos",
+                "ejercicio": "Elevación de cadera con barra",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ]
+    },
+    "semana_4": {
+        "martes": [
+            {
+                "grupo_muscular": "Glúteos",
+                "ejercicio": "Patada de glúteos",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Glúteos",
+                "ejercicio": "Elevación de cadera con barra",
+                "series": 3,
+                "repeticiones": 10,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl concentrado",
+                "series": 4,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Martillo con mancuernas",
+                "series": 3,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl en polea",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl en banco inclinado con mancuernas",
+                "series": 3,
+                "repeticiones": 15,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ],
+        "miércoles": [
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl concentrado",
+                "series": 3,
+                "repeticiones": 12,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Martillo con mancuernas",
+                "series": 4,
+                "repeticiones": 15,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl en polea",
+                "series": 3,
+                "repeticiones": 10,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl en banco inclinado con mancuernas",
+                "series": 3,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl con barra",
+                "series": 3,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ],
+        "sábado": [
+            {
+                "grupo_muscular": "Glúteos",
+                "ejercicio": "Patada de glúteos",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Glúteos",
+                "ejercicio": "Elevación de cadera con barra",
+                "series": 3,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl con barra",
+                "series": 3,
+                "repeticiones": 12,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl en polea",
+                "series": 4,
+                "repeticiones": 8,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl concentrado",
+                "series": 3,
+                "repeticiones": 15,
+                "descanso": "60s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            },
+            {
+                "grupo_muscular": "Bíceps",
+                "ejercicio": "Curl en banco inclinado con mancuernas",
+                "series": 4,
+                "repeticiones": 15,
+                "descanso": "90s",
+                "imagen": "https://i.pinimg.com/originals/f1/52/16/f15216ce06438b9ee776941c4f74dc6e.gif"
+            }
+        ]
+    }
+}

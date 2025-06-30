@@ -4,6 +4,7 @@
 #✅ Guarda JSON local y lo sube o actualiza en la tabla rutina
 #✅ Compatible con múltiples socios
 
+
 import pandas as pd
 import json
 import random
@@ -58,11 +59,11 @@ def generar_rutina(ejercicios, dias_por_semana=3, id_socio=None):
                 for _, ejercicio in seleccionados.iterrows():
                     ejercicios_dia.append({
                         "grupo_muscular": grupo,
-                        "ejercicio": ejercicio["nombre"],
+                        "ejercicio": ejercicio["nombre_ejercicio"],
                         "series": random.choice([3, 4]),
                         "repeticiones": random.choice([8, 10, 12, 15]),
                         "descanso": random.choice(["60s", "90s"]),
-                        "imagen": ejercicio["imagen_url"]
+                        "imagen": ejercicio["imagen"]
                     })
             dias[dia] = ejercicios_dia
         rutina[f"semana_{semana}"] = dias
@@ -76,12 +77,13 @@ def guardar_json(rutina, nombre_archivo):
 # Guardar o actualizar en Supabase
 def guardar_en_supabase(rutina_json, id_socio):
     try:
-        resultado = supabase.table("rutina").select("id").eq("id_socio", id_socio).execute()
+        resultado = supabase.table("rutina").select("id_rutina").eq("id_socio", id_socio).execute()
         if resultado.data:
-            supabase.table("rutina").update({"contenido": rutina_json}).eq("id_socio", id_socio).execute()
+            id_rutina_existente = resultado.data[0]["id_rutina"]
+            supabase.table("rutina").update({"rutina_desc": rutina_json}).eq("id_rutina", id_rutina_existente).execute()
             print(f"🔄 Rutina actualizada para socio {id_socio}.")
         else:
-            supabase.table("rutina").insert({"id_socio": id_socio, "contenido": rutina_json}).execute()
+            supabase.table("rutina").insert({"id_socio": id_socio, "rutina_desc": rutina_json}).execute()
             print(f"✅ Nueva rutina creada para socio {id_socio}.")
     except Exception as e:
         print(f"❌ Error Supabase: {e}")
@@ -92,19 +94,35 @@ if __name__ == "__main__":
     ejercicios = datos["ejercicio"]
     socios = datos["socio"]
 
+    # Reemplazar id_gm por el nombre del grupo muscular
+    grupo_muscular = datos["grupo_muscular"]
+    ejercicios = ejercicios.merge(
+        grupo_muscular[["id_gm", "nombre_gp"]],
+        on="id_gm",
+        how="left"
+    )
+    ejercicios.rename(columns={"nombre_gp": "grupo_muscular"}, inplace=True)
+
     print("Columnas disponibles en la tabla socio:", socios.columns.tolist())
 
     for _, socio in socios.iterrows():
-        print(f"\n🔧 Generando rutina para {socio['nombre_completo']} (ID: {socio['id_socio']})")
-        ejercicios_filtrados = ejercicios[
-            (ejercicios["id_nivel"] == socio["nivel"]) &
-            (ejercicios["id_objetivo"] == socio["objetivo"])
-        ]
-        rutina = generar_rutina(ejercicios_filtrados, socio["dias_por_semana"], socio["id_socio"])
-        if rutina:
-            archivo = f"rutinas/rutina_socio_{socio['id_socio']}.json"
-            guardar_json(rutina, archivo)
-            guardar_en_supabase(rutina, socio["id_socio"])
+        id_socio = socio["id_socio"]
+        nivel = socio["nivel"]
+        objetivo = socio["objetivo"]
+        dias_por_semana = int(socio["dias_por_semana"]) if pd.notna(socio["dias_por_semana"]) else 3
 
+        print(f"\n🔧 Generando rutina para {socio['nombre_completo']} (ID: {id_socio})")
+
+        ejercicios_filtrados = ejercicios[
+            (ejercicios["id_nivel"] == nivel) &
+            (ejercicios["id_objetivo"] == objetivo)
+        ]
+
+        rutina = generar_rutina(ejercicios_filtrados, dias_por_semana, id_socio)
+        if rutina:
+            archivo = f"rutinas/rutina_socio_{id_socio}.json"
+            guardar_json(rutina, archivo)
+            guardar_en_supabase(rutina, id_socio)
 
     print("\n✅ Todas las rutinas fueron procesadas.")
+
