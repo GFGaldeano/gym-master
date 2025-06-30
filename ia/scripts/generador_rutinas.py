@@ -106,4 +106,5 @@ if __name__ == "__main__":
             guardar_json(rutina, archivo)
             guardar_en_supabase(rutina, socio["id_socio"])
 
+
     print("\n✅ Todas las rutinas fueron procesadas.")
