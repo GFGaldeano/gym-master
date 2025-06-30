@@ -11,7 +11,6 @@ export interface CreateUsuarioDto {
   nombre: string;
   email: string;
   password: string;
-  rol?: string;
 }
 
 export interface UpdateUsuarioDto {
@@ -20,4 +19,12 @@ export interface UpdateUsuarioDto {
   password_hash?: string;
   rol?: string;
   activo?: boolean;
+}
+
+export interface ResponseUsuario{
+  id: string;
+  nombre: string;
+  email: string;
+  rol: string;
+  activo: boolean;
 }

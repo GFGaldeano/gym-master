@@ -25,11 +25,11 @@ export const updateProducto = async (id: string, updateData: UpdateProductoDto):
   return data as Producto;
 };
 
-export const deleteProducto = async (id: string): Promise<Producto[]> => {
-  const { data, error } = await supabase.from("producto").delete().eq("id", id).select();
+export const deleteProducto = async (id: string): Promise<Producto> => {
+  const { data, error } = await supabase.from("producto").update({ activo: false }).eq("id", id).select().single();
   if (error) throw new Error(error.message);
-  if (!data || data.length === 0) throw new Error("No se encontró producto con ese id");
-  return data as Producto[];
+  if (!data) throw new Error("No se encontró producto con ese id");
+  return data as Producto;
 };
 
 export const verificoStock = async (producto_id: string, cantidad: number): Promise<{ precio_unitario: number; tieneStock: boolean }> => {

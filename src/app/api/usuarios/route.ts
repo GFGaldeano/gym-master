@@ -9,7 +9,7 @@ import {
 export async function GET() {
   try {
     const usuarios = await fetchUsuarios();
-    return NextResponse.json(usuarios, { status: 200 });
+    return NextResponse.json({data:usuarios}, { status: 200 });
   } catch {
     return NextResponse.json({ error: 'Error al obtener usuarios' }, { status: 500 });
   }

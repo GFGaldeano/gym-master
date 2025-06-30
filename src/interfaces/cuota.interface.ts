@@ -5,6 +5,7 @@ export interface Cuota {
   periodo: string;
   fecha_inicio: string;
   fecha_fin: string;
+  activo:boolean;
 }
 
 export interface CreateCuotaDto {
@@ -21,4 +22,5 @@ export interface UpdateCuotaDto {
   periodo?: string;
   fecha_inicio?: string;
   fecha_fin?: string;
+  activo:boolean;
 }

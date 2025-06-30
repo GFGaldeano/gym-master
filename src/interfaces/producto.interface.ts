@@ -5,6 +5,7 @@ export interface Producto {
   precio: number;
   stock: number;
   proveedor_id: string;
+  activo: boolean;
 }
 
 export interface CreateProductoDto {
@@ -21,4 +22,5 @@ export interface UpdateProductoDto {
   precio?: number;
   stock?: number;
   proveedor_id?: string;
+  activo?: boolean;
 }

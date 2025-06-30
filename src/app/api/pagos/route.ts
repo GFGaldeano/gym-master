@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const pagos = await getAllPagos();
+    
     return NextResponse.json({ data: pagos }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ error: "Error al obtener los pagos" }, { status: 500 });
