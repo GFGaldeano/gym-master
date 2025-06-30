@@ -9,6 +9,7 @@ export const getAllCuotas = async (): Promise<Cuota[]> => {
 
 export const createCuota = async (payload: CreateCuotaDto): Promise<Cuota> => {
   const { data, error } = await supabase.from("cuota").insert({...payload, activo:true}).select().single();
+  const { data, error } = await supabase.from("cuota").insert({...payload, activo:true}).select().single();
   if (error) throw new Error(error.message);
   return data as Cuota;
 };
@@ -20,6 +21,8 @@ export const updateCuota = async (id: string, updateData: UpdateCuotaDto): Promi
   return data as Cuota;
 };
 
+export const deleteCuota = async (id: string): Promise<Cuota> => {
+  const { data, error } = await supabase.from("cuota").update({ activo: false }).eq("id", id).select().single();
 export const deleteCuota = async (id: string): Promise<Cuota> => {
   const { data, error } = await supabase.from("cuota").update({ activo: false }).eq("id", id).select().single();
   if (error) throw new Error(error.message);

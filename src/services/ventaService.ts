@@ -43,6 +43,8 @@ export const updateVenta = async (id: string, updateData: UpdateVentaDto): Promi
 
 export const deleteVenta = async (id: string): Promise<Venta> => {
   const { data, error } = await supabase.from("venta").update({ activo: false }).eq("id", id).select().single();
+export const deleteVenta = async (id: string): Promise<Venta> => {
+  const { data, error } = await supabase.from("venta").update({ activo: false }).eq("id", id).select().single();
   if (error) throw new Error(error.message);
   if (!data) throw new Error("No se encontró venta con ese id");
   return data as Venta;
