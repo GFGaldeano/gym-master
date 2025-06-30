@@ -9,21 +9,23 @@ import {
 export async function GET() {
   try {
     const usuarios = await fetchUsuarios();
-    return NextResponse.json(usuarios, { status: 200 });
+    return NextResponse.json({data:usuarios}, { status: 200 });
   } catch {
     return NextResponse.json({ error: 'Error al obtener usuarios' }, { status: 500 });
   }
 }
 
+
+//TODO: Implementar dto para que al enviar el response, no se envie el password_hash
 export async function POST(req: Request) {
   try {
-    const { nombre, email, password_hash } = await req.json();
+    const { nombre, email, password } = await req.json();
 
-    if (!nombre || !email || !password_hash) {
+    if (!nombre || !email || !password) {
       return NextResponse.json({ error: 'Todos los campos son obligatorios' }, { status: 400 });
     }
 
-    const creado = await createUsuarios(nombre.trim(), email.trim(), password_hash.trim());
+    const creado = await createUsuarios({nombre: nombre.trim(), email: email.trim(), password: password.trim()});
     return NextResponse.json({
       message: 'Usuario creado con éxito',
       data: creado
