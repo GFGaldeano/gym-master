@@ -1,13 +1,17 @@
 import { supabase } from "./supabaseClient";
 import { existeSocioActivo } from "./socioService";
-import { Asistencia, CreateAsistenciaDto, UpdateAsistenciaDto } from "../interfaces/asistencia.interface"; 
+import { Asistencia, CreateAsistenciaDto, ResponseAsistencia, UpdateAsistenciaDto } from "../interfaces/asistencia.interface"; 
 
-export const getAllAsistencias = async (): Promise<Asistencia[]> => {
+export const getAllAsistencias = async (): Promise<Asistencia[]>=> {
   const { data, error } = await supabase
     .from("asistencia")
-    .select();
-  if (error) throw new Error(error.message);
-  return data as Asistencia[];
+    .select(`*,
+      socio: socio_id (id_socio, nombre_completo)`);
+  if (error) {
+   console.log(error.message);
+    throw new Error("hubo un error al traer las asistencias");
+  }
+ return data;
 };
 
 export const createAsistencia = async (payload: CreateAsistenciaDto): Promise<Asistencia> => {

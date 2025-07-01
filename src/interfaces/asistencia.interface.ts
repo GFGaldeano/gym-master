@@ -19,3 +19,14 @@ export interface UpdateAsistenciaDto {
   hora_ingreso?: string;
   hora_egreso?: string;
 }
+
+export interface ResponseAsistencia {
+  id: string;
+  fecha: string;
+  hora_ingreso: string;
+  hora_egreso: string;
+  socio: {
+    socio_id: string;
+    nombre_completo: string;
+  };
+}
