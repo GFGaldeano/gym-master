@@ -43,3 +43,16 @@ export const deleteActividad = async (id: string) => {
   if (error) throw new Error(error.message)
   if (!data || data.length === 0) throw new Error('No se encontró la actividad con ese ID')
 }
+
+export const getActividadById = async (id: string): Promise<any> => {
+  const { data, error } = await supabase
+    .from("actividad")
+    .select()
+    .eq("id", id)
+    .single();
+  if (error) {
+    console.log(error.message);
+    throw new Error("No se encontró la actividad con ese id");
+  }
+  return data;
+};

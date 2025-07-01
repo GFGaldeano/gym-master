@@ -32,3 +32,16 @@ export const deleteServicio = async (id: string): Promise<Servicio[]> => {
 
   return data as Servicio[];
 };
+
+export const getServicioById = async (id: string): Promise<Servicio> => {
+  const { data, error } = await supabase
+    .from("servicio")
+    .select()
+    .eq("id", id)
+    .single();
+  if (error) {
+    console.log(error.message);
+    throw new Error("No se encontró el servicio con ese id");
+  }
+  return data as Servicio;
+};

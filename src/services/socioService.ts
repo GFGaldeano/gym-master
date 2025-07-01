@@ -1,3 +1,4 @@
+import { Socio } from '@/interfaces/socio.interface';
 import { supabase } from './supabaseClient'
 
 export const fetchSocios = async () => {
@@ -88,6 +89,19 @@ export const toggleSocioActivo = async (socio: { id_socio: string; activo: boole
 
   if (error) throw new Error(error.message);
   return data;
+};
+
+export const getSocioById = async (id: string): Promise<Socio> => {
+  const { data, error } = await supabase
+    .from("socio")
+    .select()
+    .eq("id_socio", id)
+    .single();
+  if (error) {
+    console.log(error.message);
+    throw new Error("No se encontró el socio con ese id");
+  }
+  return data as Socio;
 };
 
 

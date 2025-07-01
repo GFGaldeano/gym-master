@@ -26,3 +26,16 @@ export const deleteCuota = async (id: string): Promise<Cuota> => {
   if (!data) throw new Error("No se encontró cuota con ese id");
   return data as Cuota;
 };
+
+export const getCuotaById = async (id: string): Promise<Cuota> => {
+  const { data, error } = await supabase
+    .from("cuota")
+    .select()
+    .eq("id", id)
+    .single();
+  if (error) {
+    console.log(error.message);
+    throw new Error("No se encontró la cuota con ese id");
+  }
+  return data as Cuota;
+};
