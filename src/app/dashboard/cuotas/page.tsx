@@ -17,6 +17,12 @@ import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { toast } from "sonner";
 import ExcelJS from "exceljs";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 export default function CuotasPage() {
   const { data: session, status } = useSession();
@@ -29,6 +35,7 @@ export default function CuotasPage() {
   const [selectedCuota, setSelectedCuota] = useState<Cuota | null>(null);
   const [openModalVer, setOpenModalVer] = useState(false);
   const [cuotaVer, setCuotaVer] = useState<Cuota | null>(null);
+  const [filtroActivo, setFiltroActivo] = useState("todos");
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -89,20 +96,29 @@ export default function CuotasPage() {
   }, [status]);
 
   useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredCuotas(cuotas);
-      return;
+    let cuotasFiltradas = cuotas;
+    if (filtroActivo === "activos") {
+      cuotasFiltradas = cuotasFiltradas.filter((c) => c.activo);
+    } else if (filtroActivo === "inactivos") {
+      cuotasFiltradas = cuotasFiltradas.filter((c) => !c.activo);
     }
+    if (searchTerm.trim() !== "") {
+      const lowercaseSearch = searchTerm.toLowerCase();
+      cuotasFiltradas = cuotasFiltradas.filter(
+        (c) =>
+          c.descripcion.toLowerCase().includes(lowercaseSearch) ||
+          c.periodo.toLowerCase().includes(lowercaseSearch)
+      );
+    }
+    setFilteredCuotas(cuotasFiltradas);
+  }, [searchTerm, cuotas, filtroActivo]);
 
-    const lowercaseSearch = searchTerm.toLowerCase();
-    const filtered = cuotas.filter(
-      (c) =>
-        c.descripcion.toLowerCase().includes(lowercaseSearch) ||
-        c.periodo.toLowerCase().includes(lowercaseSearch)
-    );
-
-    setFilteredCuotas(filtered);
-  }, [searchTerm, cuotas]);
+  const filtroLabel =
+    filtroActivo === "todos"
+      ? "Todos"
+      : filtroActivo === "activos"
+      ? "Activos"
+      : "Inactivos";
 
   if (status === "loading" || loading) {
     return <p>Cargando datos de cuotas...</p>;
@@ -119,15 +135,50 @@ export default function CuotasPage() {
               <CardHeader className="flex flex-wrap items-center justify-between gap-4 p-4 border-b md:flex-nowrap">
                 <h2 className="text-xl font-bold">Listado de Cuotas</h2>
                 <div className="flex flex-wrap items-center w-full gap-2 md:w-auto">
-                  <div className="relative flex-grow md:flex-grow-0">
-                    <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="search"
-                      placeholder="Buscar por descripción, período..."
-                      className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] w-full"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                  <div className="flex items-center flex-grow gap-2 md:flex-grow-0">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="min-w-[120px]">
+                          {filtroLabel}
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                        <DropdownMenuItem
+                          onSelect={() => setFiltroActivo("todos")}
+                          className={
+                            filtroActivo === "todos" ? "font-bold" : ""
+                          }
+                        >
+                          Todos
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onSelect={() => setFiltroActivo("activos")}
+                          className={
+                            filtroActivo === "activos" ? "font-bold" : ""
+                          }
+                        >
+                          Activos
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onSelect={() => setFiltroActivo("inactivos")}
+                          className={
+                            filtroActivo === "inactivos" ? "font-bold" : ""
+                          }
+                        >
+                          Inactivos
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <div className="relative flex-grow md:flex-grow-0">
+                      <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        type="search"
+                        placeholder="Buscar por descripción, período..."
+                        className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] w-full"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
                   </div>
                   <Button
                     onClick={handlePrint}
