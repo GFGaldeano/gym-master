@@ -13,15 +13,7 @@ import {
   TableRow,
   TableCaption,
 } from "@/components/ui/table";
-
-export interface Cuota {
-  id: string;
-  descripcion: string;
-  monto: number;
-  periodo: string;
-  fecha_inicio: string;
-  fecha_fin: string;
-}
+import { Cuota } from "@/interfaces/cuota.interface";
 
 export default function CuotaTable({
   cuotas,
@@ -29,12 +21,14 @@ export default function CuotaTable({
   onEdit,
   onView,
   onDelete,
+  onToggleActivo,
 }: {
   cuotas: Cuota[];
   loading?: boolean;
   onEdit: (cuota: Cuota) => void;
   onView?: (cuota: Cuota) => void;
   onDelete?: (cuota: Cuota) => void;
+  onToggleActivo?: (cuota: Cuota) => void;
 }) {
   if (loading) {
     return (
@@ -63,10 +57,10 @@ export default function CuotaTable({
           <TableHead>Período</TableHead>
           <TableHead>Fecha Inicio</TableHead>
           <TableHead>Fecha Fin</TableHead>
+          <TableHead>Activo</TableHead>
           <TableHead>Acciones</TableHead>
         </TableRow>
       </TableHeader>
-
       <TableBody>
         {cuotas.map((c, i) => (
           <TableRow
@@ -78,6 +72,7 @@ export default function CuotaTable({
             <TableCell>{c.periodo}</TableCell>
             <TableCell>{c.fecha_inicio}</TableCell>
             <TableCell>{c.fecha_fin}</TableCell>
+            <TableCell>{c.activo ? "✅" : "❌"}</TableCell>
             <TableCell className="flex gap-2">
               <Button
                 size="sm"
@@ -96,6 +91,18 @@ export default function CuotaTable({
               </Button>
               <Button
                 size="sm"
+                className={
+                  (c.activo
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-green-500 hover:bg-green-600") +
+                  " text-white w-[100px]"
+                }
+                onClick={() => onToggleActivo && onToggleActivo(c)}
+              >
+                {c.activo ? "Desactivar" : "Activar"}
+              </Button>
+              <Button
+                size="sm"
                 className="bg-red-500 hover:bg-red-600 text-white w-[100px]"
                 onClick={() => onDelete && onDelete(c)}
               >
@@ -105,14 +112,12 @@ export default function CuotaTable({
           </TableRow>
         ))}
       </TableBody>
-
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={5}>Total de cuotas</TableCell>
+          <TableCell colSpan={6}>Total de cuotas</TableCell>
           <TableCell className="text-right">{cuotas.length}</TableCell>
         </TableRow>
       </TableFooter>
-
       <TableCaption>Listado de cuotas registradas.</TableCaption>
     </Table>
   );
