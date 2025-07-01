@@ -32,7 +32,7 @@ export default function AsistenciaTable({
     return (
       <div className="space-y-2">
         {[...Array(5)].map((_, i) => (
-          <Skeleton key={i} className="w-full h-9 rounded-md" />
+          <Skeleton key={i} className="w-full rounded-md h-9" />
         ))}
       </div>
     );
@@ -47,11 +47,10 @@ export default function AsistenciaTable({
   }
 
   return (
-    <Table className="overflow-hidden w-full text-sm rounded-md border border-border">
+    <Table className="w-full overflow-hidden text-sm border rounded-md border-border">
       <TableHeader>
         <TableRow className="bg-muted/50 text-muted-foreground">
-          <TableHead>ID Asistencia</TableHead>
-          <TableHead>ID Socio</TableHead>
+          <TableHead>Nombre de Socio</TableHead>
           <TableHead>Fecha</TableHead>
           <TableHead>Hora Ingreso</TableHead>
           <TableHead>Hora Egreso</TableHead>
@@ -65,8 +64,11 @@ export default function AsistenciaTable({
             key={a.id || i}
             className="odd:bg-muted/40 hover:bg-[#a8d9f9] transition-colors"
           >
-            <TableCell className="font-medium">{a.id}</TableCell>
-            <TableCell>{a.socio_id}</TableCell>
+            <TableCell>
+              {"socio" in a && a.socio && a.socio.nombre_completo
+                ? a.socio.nombre_completo
+                : a.socio_id}
+            </TableCell>
             <TableCell>{a.fecha}</TableCell>
             <TableCell>{a.hora_ingreso}</TableCell>
             <TableCell>{a.hora_egreso || "-"}</TableCell>
@@ -93,7 +95,7 @@ export default function AsistenciaTable({
 
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={5}>Total de asistencias</TableCell>
+          <TableCell colSpan={4}>Total de asistencias</TableCell>
           <TableCell className="text-right">{asistencias.length}</TableCell>
         </TableRow>
       </TableFooter>

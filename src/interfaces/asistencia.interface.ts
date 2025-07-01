@@ -4,6 +4,9 @@ export interface Asistencia {
   fecha: string; // YYYY-MM-DD
   hora_ingreso: string; // ISO string o HH:mm:ssZ
   hora_egreso: string; // ISO string o HH:mm:ssZ
+  socio?: {
+    nombre_completo: string;
+  };
 }
 
 export interface CreateAsistenciaDto {
