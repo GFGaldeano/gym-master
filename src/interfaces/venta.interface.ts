@@ -7,6 +7,12 @@ export interface Venta {
   fecha: string;
   activo: boolean;
   id_venta_detalle: string;
+
+  socio?: {
+    nombre_completo: string;
+  };
+
+
 }
 
 export interface CreateVentaDto {
@@ -14,9 +20,9 @@ export interface CreateVentaDto {
   fecha: string;
 }
 
-export interface CreateVentaConDetalleDto{
-    venta: CreateVentaDto;
-    venta_detalle:CreateVentaDetalleDto;
+export interface CreateVentaConDetalleDto {
+  venta: CreateVentaDto;
+  venta_detalle: CreateVentaDetalleDto;
 }
 
 export interface UpdateVentaDto {
@@ -27,14 +33,16 @@ export interface UpdateVentaDto {
   id_venta_detalle?: string;
 }
 
-export interface ResponseVenta{
-    id: string;
-    //socio_id: string;
-    total: number;
-    fecha: string;
-    venta_detalle: VentaDetalle;
-    socio:{
-      socio_id:string;
-      nombre_completo: string;
-    }
+
+export interface ResponseVenta {
+  id: string;
+  //socio_id: string;
+  total: number;
+  fecha: string;
+  venta_detalle: VentaDetalle;
+  socio: {
+    socio_id: string;
+    nombre_completo: string;
+  };
+
 }
