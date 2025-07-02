@@ -1,7 +1,7 @@
 import { Socio } from '@/interfaces/socio.interface';
 import { supabase } from './supabaseClient'
 
-export const fetchSocios = async () => {
+export const fetchSocios = async () : Promise<Socio[]>=> {
   const { data, error } = await supabase
     .from('socio')
     .select('*') // sin filtros
@@ -46,7 +46,7 @@ export const updateSocio = async (
   const { data, error } = await supabase
     .from('socio')
     .update(updateData)
-    .eq('id', id)
+    .eq('id_socio', id)
     .select()
 
   if (error) throw new Error(error.message)
@@ -58,7 +58,7 @@ export const deleteSocio = async (id: string) => {
   const { data, error } = await supabase
     .from('socio')
     .update({ activo: false })
-    .eq('id', id)
+    .eq('id_socio', id)
     .select()
 
   if (error) throw new Error(error.message)

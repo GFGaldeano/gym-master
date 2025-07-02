@@ -1,13 +1,13 @@
 export interface Socio {
-  id: string;
-  usuario_id?: string;
+  id_socio: string;
+  usuario_id: string;
   nombre_completo: string;
   dni: string;
-  direccion?: string;
-  telefono?: string;
-  email?: string;
+  direccion: string;
+  telefono: string;
+  email: string;
   foto?: string;
-  activo?: boolean;
+  activo: boolean;
   fecha_baja?: string;
 }
 
