@@ -6,6 +6,7 @@ export interface Venta {
   total: number;
   fecha: string;
   activo: boolean;
+  id_venta_detalle: string;
 }
 
 export interface CreateVentaDto {
@@ -23,12 +24,17 @@ export interface UpdateVentaDto {
   total?: number;
   fecha?: string;
   activo?: boolean;
+  id_venta_detalle?: string;
 }
 
 export interface ResponseVenta{
     id: string;
-    socio_id: string;
+    //socio_id: string;
     total: number;
     fecha: string;
     venta_detalle: VentaDetalle;
+    socio:{
+      socio_id:string;
+      nombre_completo: string;
+    }
 }
