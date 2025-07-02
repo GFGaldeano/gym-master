@@ -1,3 +1,4 @@
+import { Socio } from '@/interfaces/socio.interface';
 import { supabase } from './supabaseClient'
 
 export const fetchSocios = async () => {
@@ -30,7 +31,7 @@ export const createSocio = async (payload: {
 }
 
 export const updateSocio = async (
-  id: string,
+  id_socio: string,
   updateData: {
     nombre_completo?: string;
     dni?: string;
@@ -45,7 +46,7 @@ export const updateSocio = async (
   const { data, error } = await supabase
     .from('socio')
     .update(updateData)
-    .eq('id', id)
+    .eq('id_socio', id_socio)
     .select()
 
   if (error) throw new Error(error.message)
@@ -57,7 +58,7 @@ export const deleteSocio = async (id: string) => {
   const { data, error } = await supabase
     .from('socio')
     .update({ activo: false })
-    .eq('id', id)
+    .eq('id_socio', id)
     .select()
 
   if (error) throw new Error(error.message)
@@ -88,6 +89,19 @@ export const toggleSocioActivo = async (socio: { id_socio: string; activo: boole
 
   if (error) throw new Error(error.message);
   return data;
+};
+
+export const getSocioById = async (id: string): Promise<Socio> => {
+  const { data, error } = await supabase
+    .from("socio")
+    .select()
+    .eq("id_socio", id)
+    .single();
+  if (error) {
+    console.log(error.message);
+    throw new Error("No se encontró el socio con ese id");
+  }
+  return data as Socio;
 };
 
 

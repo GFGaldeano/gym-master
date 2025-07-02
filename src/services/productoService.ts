@@ -55,3 +55,16 @@ export const verificoStock = async (producto_id: string, cantidad: number): Prom
   }
   return { precio_unitario: data.precio, tieneStock: true };
 };
+
+export const getProductoById = async (id: string): Promise<Producto> => {
+  const { data, error } = await supabase
+    .from("producto")
+    .select()
+    .eq("id", id)
+    .single();
+  if (error) {
+   console.log(error.message);
+    throw new Error("No se encontró el producto con ese id");
+  }
+    return data as Producto;
+};

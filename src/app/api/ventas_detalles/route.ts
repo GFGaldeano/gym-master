@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     if (!body.venta_id || !body.producto_id || !body.cantidad || !body.precio_unitario ) {
       return NextResponse.json({ error: "Todos los campos son obligatorios" }, { status: 400 });
     }
-    const detalle = await createVentaDetalle(body);
+    const detalle = await createVentaDetalle(body,body.venta_id);
     return NextResponse.json({ message: "Detalle de venta creado con éxito", data: detalle }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || "Error al crear el detalle de venta" }, { status: 500 });
