@@ -1,8 +1,24 @@
-# Generador de rutinas conectando directamente a Supabase, con lógica de 6/8 ejercicios
-#✅ Conexión directa a Supabase 
-#✅ Generación de rutinas con 6 o 8 ejercicios diarios
-#✅ Guarda JSON local y lo sube o actualiza en la tabla rutina
-#✅ Compatible con múltiples socios
+# ✅ GENERADOR DE RUTINAS SEMANALES PERSONALIZADAS
+#
+# Este script genera rutinas de entrenamiento semanales personalizadas para cada socio.
+# Está integrado con Supabase (PostgreSQL) y utiliza un modelo de lógica configurable.
+#
+# 🔹 Funcionalidades:
+# - Conexión a Supabase para obtener:
+#   • Tabla `socio` (nivel, objetivo, días por semana)
+#   • Tabla `ejercicio` con relaciones a `nivel`, `objetivo` y `grupo_muscular`
+# - Generación de una rutina semanal personalizada:
+#   • Evita repetir grupos musculares consecutivos
+#   • Días con 1 grupo → 6 ejercicios
+#   • Días con 2 grupos → 8 ejercicios (4 por grupo)
+# - Formato de salida: JSON estructurado con días y ejercicios
+# - Guardado:
+#   • Localmente como archivo `.json`
+#   • Remotamente en la tabla `rutina` de Supabase (`rutina_desc`)
+#
+# 💡 Uso:
+# Ejecutar este script para generar o actualizar la rutina semanal de todos los socios registrados.
+
 
 
 import pandas as pd
@@ -28,46 +44,44 @@ def cargar_datos_supabase():
         datos[tabla] = pd.DataFrame(response.data)
     return datos
 
-# Generar rutina mensual con 6/8 ejercicios según grupos musculares
+# Generar rutina semanal con 6/8 ejercicios según grupos musculares
 def generar_rutina(ejercicios, dias_por_semana=3, id_socio=None):
     grupos = list(ejercicios["grupo_muscular"].unique())
     if len(grupos) < 1:
         print(f"⚠️ No hay grupos musculares disponibles para el socio {id_socio}.")
         return None
 
-    rutina = {}
-    for semana in range(1, 5):
-        dias = {}
-        dias_disponibles = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado"]
-        random.shuffle(dias_disponibles)
-        dias_usados = dias_disponibles[:dias_por_semana]
+    semana = {}
+    dias_disponibles = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado"]
+    random.shuffle(dias_disponibles)
+    dias_usados = dias_disponibles[:dias_por_semana]
 
-        for dia in dias_usados:
-            ejercicios_dia = []
-            usar_dos_grupos = random.choice([True, False])
-            grupos_dia = random.sample(grupos, 2 if usar_dos_grupos and len(grupos) >= 2 else 1)
+    for dia in dias_usados:
+        ejercicios_dia = []
+        usar_dos_grupos = random.choice([True, False])
+        grupos_dia = random.sample(grupos, 2 if usar_dos_grupos and len(grupos) >= 2 else 1)
 
-            for grupo in grupos_dia:
-                ejercicios_grupo = ejercicios[ejercicios["grupo_muscular"] == grupo]
-                cantidad = 4 if len(grupos_dia) == 2 else 6
-                cantidad_por_grupo = 4 if len(grupos_dia) == 2 else 6
+        for grupo in grupos_dia:
+            ejercicios_grupo = ejercicios[ejercicios["grupo_muscular"] == grupo]
+            cantidad = 4 if len(grupos_dia) == 2 else 6
+            cantidad_por_grupo = 4 if len(grupos_dia) == 2 else 6
 
-                if len(ejercicios_grupo) < cantidad_por_grupo:
-                    cantidad_por_grupo = len(ejercicios_grupo)
+            if len(ejercicios_grupo) < cantidad_por_grupo:
+                cantidad_por_grupo = len(ejercicios_grupo)
 
-                seleccionados = ejercicios_grupo.sample(cantidad_por_grupo)
-                for _, ejercicio in seleccionados.iterrows():
-                    ejercicios_dia.append({
-                        "grupo_muscular": grupo,
-                        "ejercicio": ejercicio["nombre_ejercicio"],
-                        "series": random.choice([3, 4]),
-                        "repeticiones": random.choice([8, 10, 12, 15]),
-                        "descanso": random.choice(["60s", "90s"]),
-                        "imagen": ejercicio["imagen"]
-                    })
-            dias[dia] = ejercicios_dia
-        rutina[f"semana_{semana}"] = dias
-    return rutina
+            seleccionados = ejercicios_grupo.sample(cantidad_por_grupo)
+            for _, ejercicio in seleccionados.iterrows():
+                ejercicios_dia.append({
+                    "grupo_muscular": grupo,
+                    "ejercicio": ejercicio["nombre_ejercicio"],
+                    "series": random.choice([3, 4]),
+                    "repeticiones": random.choice([8, 10, 12, 15]),
+                    "descanso": random.choice(["60s", "90s"]),
+                    "imagen": ejercicio["imagen"]
+                })
+        semana[dia] = ejercicios_dia
+
+    return {"semana": semana}
 
 # Guardar JSON local
 def guardar_json(rutina, nombre_archivo):
