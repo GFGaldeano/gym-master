@@ -17,6 +17,12 @@ import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { toast } from "sonner";
 import ExcelJS from "exceljs";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 export default function ServiciosPage() {
   const { data: session, status } = useSession();
@@ -31,6 +37,7 @@ export default function ServiciosPage() {
   );
   const [openModalVer, setOpenModalVer] = useState(false);
   const [servicioVer, setServicioVer] = useState<Servicio | null>(null);
+  const [filtroActivo, setFiltroActivo] = useState("todos");
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -89,20 +96,29 @@ export default function ServiciosPage() {
   }, [status]);
 
   useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredServicios(servicios);
-      return;
+    let serviciosFiltrados = servicios;
+    if (filtroActivo === "activos") {
+      serviciosFiltrados = serviciosFiltrados.filter((s) => s.activo);
+    } else if (filtroActivo === "inactivos") {
+      serviciosFiltrados = serviciosFiltrados.filter((s) => !s.activo);
     }
+    if (searchTerm.trim() !== "") {
+      const lowercaseSearch = searchTerm.toLowerCase();
+      serviciosFiltrados = serviciosFiltrados.filter(
+        (s) =>
+          s.nombre.toLowerCase().includes(lowercaseSearch) ||
+          s.descripcion.toLowerCase().includes(lowercaseSearch)
+      );
+    }
+    setFilteredServicios(serviciosFiltrados);
+  }, [searchTerm, servicios, filtroActivo]);
 
-    const lowercaseSearch = searchTerm.toLowerCase();
-    const filtered = servicios.filter(
-      (s) =>
-        s.nombre.toLowerCase().includes(lowercaseSearch) ||
-        s.descripcion.toLowerCase().includes(lowercaseSearch)
-    );
-
-    setFilteredServicios(filtered);
-  }, [searchTerm, servicios]);
+  const filtroLabel =
+    filtroActivo === "todos"
+      ? "Todos"
+      : filtroActivo === "activos"
+      ? "Activos"
+      : "Inactivos";
 
   if (status === "loading" || loading) {
     return <p>Cargando datos de servicios...</p>;
@@ -119,15 +135,50 @@ export default function ServiciosPage() {
               <CardHeader className="flex flex-wrap items-center justify-between gap-4 p-4 border-b md:flex-nowrap">
                 <h2 className="text-xl font-bold">Listado de Servicios</h2>
                 <div className="flex flex-wrap items-center w-full gap-2 md:w-auto">
-                  <div className="relative flex-grow md:flex-grow-0">
-                    <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="search"
-                      placeholder="Buscar por nombre, descripción..."
-                      className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] w-full"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                  <div className="flex gap-2 items-center flex-grow md:flex-grow-0">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="min-w-[120px]">
+                          {filtroLabel}
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                        <DropdownMenuItem
+                          onSelect={() => setFiltroActivo("todos")}
+                          className={
+                            filtroActivo === "todos" ? "font-bold" : ""
+                          }
+                        >
+                          Todos
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onSelect={() => setFiltroActivo("activos")}
+                          className={
+                            filtroActivo === "activos" ? "font-bold" : ""
+                          }
+                        >
+                          Activos
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onSelect={() => setFiltroActivo("inactivos")}
+                          className={
+                            filtroActivo === "inactivos" ? "font-bold" : ""
+                          }
+                        >
+                          Inactivos
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <div className="relative flex-grow md:flex-grow-0">
+                      <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        type="search"
+                        placeholder="Buscar por nombre, descripción..."
+                        className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] w-full"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
                   </div>
                   <Button
                     onClick={handlePrint}

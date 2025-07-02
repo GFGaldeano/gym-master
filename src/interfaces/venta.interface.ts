@@ -7,9 +7,12 @@ export interface Venta {
   fecha: string;
   activo: boolean;
   id_venta_detalle: string;
+
   socio?: {
     nombre_completo: string;
   };
+
+
 }
 
 export interface CreateVentaDto {
@@ -30,6 +33,7 @@ export interface UpdateVentaDto {
   id_venta_detalle?: string;
 }
 
+
 export interface ResponseVenta {
   id: string;
   //socio_id: string;
@@ -40,4 +44,5 @@ export interface ResponseVenta {
     socio_id: string;
     nombre_completo: string;
   };
+
 }
