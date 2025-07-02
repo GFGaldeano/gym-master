@@ -8,15 +8,21 @@ import { AppFooter } from "@/components/footer/AppFooter";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Printer, FileSpreadsheet } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Search, Printer, FileSpreadsheet, Filter } from "lucide-react";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { toast } from "sonner";
-import RutinasTable, { Rutina } from "@/components/tables/RutinasTable";
+import RutinasTable, { type Rutina } from "@/components/tables/RutinasTable";
 import RutinaModal from "@/components/modal/RutinaModal";
 import RutinaModalView from "@/components/modal/RutinaModalView";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 pdfMake.vfs = pdfFonts.vfs;
 
@@ -63,6 +69,9 @@ const rutinasHardcodeadas: Rutina[] = [
   },
 ];
 
+const niveles = ["Principiante", "Intermedio", "Avanzado"];
+const objetivos = ["Hipertrofia", "Definición", "Fuerza", "Resistencia"];
+
 export default function RutinasPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -74,6 +83,8 @@ export default function RutinasPage() {
   const [selectedRutina, setSelectedRutina] = useState<Rutina | null>(null);
   const [openModalVer, setOpenModalVer] = useState(false);
   const [rutinaVer, setRutinaVer] = useState<Rutina | null>(null);
+  const [selectedNiveles, setSelectedNiveles] = useState<string[]>([]);
+  const [selectedObjetivos, setSelectedObjetivos] = useState<string[]>([]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -136,6 +147,22 @@ export default function RutinasPage() {
     pdfMake.createPdf(docDefinition).download("Listado_Rutinas.pdf");
   };
 
+  const handleNivelChange = (nivel: string, checked: boolean) => {
+    if (checked) {
+      setSelectedNiveles([...selectedNiveles, nivel]);
+    } else {
+      setSelectedNiveles(selectedNiveles.filter((n) => n !== nivel));
+    }
+  };
+
+  const handleObjetivoChange = (objetivo: string, checked: boolean) => {
+    if (checked) {
+      setSelectedObjetivos([...selectedObjetivos, objetivo]);
+    } else {
+      setSelectedObjetivos(selectedObjetivos.filter((o) => o !== objetivo));
+    }
+  };
+
   useEffect(() => {
     if (status === "authenticated") {
       fetchRutinas();
@@ -144,6 +171,19 @@ export default function RutinasPage() {
 
   useEffect(() => {
     let rutinasFiltradas = rutinas;
+
+    if (selectedNiveles.length > 0) {
+      rutinasFiltradas = rutinasFiltradas.filter((r) =>
+        selectedNiveles.includes(r.nivel)
+      );
+    }
+
+    if (selectedObjetivos.length > 0) {
+      rutinasFiltradas = rutinasFiltradas.filter((r) =>
+        selectedObjetivos.includes(r.objetivo)
+      );
+    }
+
     if (searchTerm.trim() !== "") {
       const lowercaseSearch = searchTerm.toLowerCase();
       rutinasFiltradas = rutinasFiltradas.filter(
@@ -153,8 +193,9 @@ export default function RutinasPage() {
           r.nivel.toLowerCase().includes(lowercaseSearch)
       );
     }
+
     setFilteredRutinas(rutinasFiltradas);
-  }, [searchTerm, rutinas]);
+  }, [searchTerm, rutinas, selectedNiveles, selectedObjetivos]);
 
   if (status === "loading" || loading) {
     return <p>Cargando datos de rutinas...</p>;
@@ -172,6 +213,79 @@ export default function RutinasPage() {
                 <h2 className="text-xl font-bold">Listado de Rutinas</h2>
                 <div className="flex flex-wrap items-center w-full gap-2 md:w-auto">
                   <div className="flex items-center flex-grow gap-2 md:flex-grow-0">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="flex items-center gap-2 bg-transparent"
+                        >
+                          <Filter className="w-4 h-4" />
+                          Filtros
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-80">
+                        <div className="space-y-4">
+                          <div>
+                            <h4 className="mb-2 font-medium">Niveles</h4>
+                            <div className="space-y-2">
+                              {niveles.map((nivel) => (
+                                <div
+                                  key={nivel}
+                                  className="flex items-center space-x-2"
+                                >
+                                  <Checkbox
+                                    id={`nivel-${nivel}`}
+                                    checked={selectedNiveles.includes(nivel)}
+                                    onCheckedChange={(checked) =>
+                                      handleNivelChange(
+                                        nivel,
+                                        checked as boolean
+                                      )
+                                    }
+                                  />
+                                  <label
+                                    htmlFor={`nivel-${nivel}`}
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                  >
+                                    {nivel}
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          <div>
+                            <h4 className="mb-2 font-medium">Objetivos</h4>
+                            <div className="space-y-2">
+                              {objetivos.map((objetivo) => (
+                                <div
+                                  key={objetivo}
+                                  className="flex items-center space-x-2"
+                                >
+                                  <Checkbox
+                                    id={`objetivo-${objetivo}`}
+                                    checked={selectedObjetivos.includes(
+                                      objetivo
+                                    )}
+                                    onCheckedChange={(checked) =>
+                                      handleObjetivoChange(
+                                        objetivo,
+                                        checked as boolean
+                                      )
+                                    }
+                                  />
+                                  <label
+                                    htmlFor={`objetivo-${objetivo}`}
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                  >
+                                    {objetivo}
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                     <div className="relative flex-grow md:flex-grow-0">
                       <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -237,7 +351,6 @@ export default function RutinasPage() {
           <AppFooter />
         </SidebarInset>
       </div>
-
       <RutinaModal
         open={openModal}
         onClose={() => {
@@ -247,7 +360,6 @@ export default function RutinasPage() {
         onCreated={fetchRutinas}
         rutina={selectedRutina}
       />
-
       <RutinaModalView
         open={openModalVer}
         onClose={() => {
