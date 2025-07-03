@@ -2,8 +2,11 @@ export interface Pago {
   id: string;
   socio_id: string;
   cuota_id: string;
+
+  socio_cuota_id:string;
+
   fecha_pago: string;
-  fecha_vencimiento: string;
+  //fecha_vencimiento: string;
   monto_pagado: number;
   total: number;
   registrado_por: string;
@@ -13,8 +16,11 @@ export interface Pago {
 export interface CreatePagoDto {
   socio_id: string;
   cuota_id: string;
+  
+  socio_cuota_id:string;
+
   fecha_pago: string;
-  fecha_vencimiento: string;
+//  fecha_vencimiento: string;
   monto_pagado: number;
   registrado_por: string;
 }
@@ -24,7 +30,7 @@ export interface UpdatePagoDto {
   socio_id?: string;
   cuota_id?: string;
   fecha_pago?: string;
-  fecha_vencimiento?: string;
+  //fecha_vencimiento?: string;
   monto_pagado?: number;
   registrado_por?: string;
   activo?: boolean;
@@ -47,5 +53,9 @@ export interface ResponsePago {
     cuota: {
         id: string;
         descripcion: string;
+    };
+    socio_cuota: {
+        id: string;
+        estado: string;
     };
 }

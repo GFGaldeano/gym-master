@@ -3,6 +3,7 @@ import { getAllPagos } from "@/services/pagoService";
 import { fetchSocios } from "@/services/socioService";
 import { getAllCuotas } from "@/services/cuotaService";
 import dayjs from "dayjs";
+import { supabase } from "@/services/supabaseClient";
 
 const apiInstance = new brevo.TransactionalEmailsApi;
 
@@ -86,3 +87,45 @@ try {
   console.error("Error enviando email:", error);
 }
      }
+
+     export interface SocioCuotaPendiente {
+      socio_id: string;
+      nombre_completo: string;
+      email: string;
+      cuota: {
+        descripcion: string;
+        monto: number;
+        estado: string;
+        fecha_vencimiento: string;
+      };
+    }
+    
+    export async function getSociosConCuotasVencidas(): Promise<SocioCuotaPendiente[]> {
+      const { data, error } = await supabase
+        .from("socio_cuota")
+        .select(`
+          socio: socio_id (id_socio, nombre_completo, email, activo),
+          cuota: cuota_id (descripcion, monto),
+          estado,
+          fecha_vencimiento
+        `)
+        .in("estado", ["vencida"]);
+    
+      if (error) throw new Error(error.message);
+      if (!data) return [];
+    
+      // Filtrar solo socios activos y mapear la estructura
+      return data
+        .filter((row: any) => row.socio && row.socio.activo)
+        .map((row: any) => ({
+          socio_id: row.socio.id_socio,
+          nombre_completo: row.socio.nombre_completo,
+          email: row.socio.email,
+          cuota: {
+            descripcion: row.cuota.descripcion,
+            monto: row.cuota.monto,
+            estado: row.estado,
+            fecha_vencimiento: row.fecha_vencimiento
+          }
+        }));
+    }

@@ -1,6 +1,7 @@
 import { supabase } from "./supabaseClient";
 import { Pago, CreatePagoDto, UpdatePagoDto, ResponsePago } from "../interfaces/pago.interface";
 import { Socio } from "@/interfaces/socio.interface";
+import { updateEstadoSocioCuota } from "./socioCuotaService";
 
 /*export const getAllPagos = async (): Promise<Pago[]> => {
   const { data, error } = await supabase.from("pago").select();
@@ -15,7 +16,8 @@ export const getAllPagos = async () : Promise<ResponsePago[]> => {
   .select(`*, 
     socio: socio_id ( id_socio, nombre_completo ),
     cuota: cuota_id (id, descripcion, fecha_fin),
-    registrado_por: registrado_por( id, nombre )
+    registrado_por: registrado_por( id, nombre ),
+    socio_cuota: socio_cuota_id (id, estado)
     `);
     
 
@@ -44,14 +46,30 @@ const responseAllPagos = (data : ResponsePago[]) :  ResponsePago[] =>{
     socio:{
         id_socio: pago.socio.id_socio,
         nombre_completo: pago.socio.nombre_completo
+    },
+    socio_cuota:{
+        id: pago.socio_cuota.id,
+        estado: pago.socio_cuota.estado
     }
   }));
   return response;
 }
 
+//TODO: CREAR LOGICA NECESARIA PARA VERIFICAR QUE EL SOCIO TENGA UNA CUOTA PENDIENTE Y QUE SEA 
+// EL SOCIO CORRECTO
+//TODO: VERIFICAR Y CORROBORAR EL MONTO DE PAGO
 export const createPago = async (payload: CreatePagoDto): Promise<Pago> => {
+
+  console.log(payload);
+  
   const { data, error } = await supabase.from("pago").insert(payload).select().single();
   if (error) throw new Error(error.message);
+
+  //una vez realizado el pago, se actualiza el socio_cuota
+  const { socio_cuota_id } = data;
+const socioCuota = await updateEstadoSocioCuota(socio_cuota_id, "pagado");
+console.log("socio_Cuota",socioCuota);
+
   return data as Pago;
 };
 
@@ -100,6 +118,10 @@ export const getPagoById = async (id: string): Promise<ResponsePago> => {
     socio:{
         id_socio: data.socio.id_socio,
         nombre_completo: data.socio.nombre_completo
+    },
+    socio_cuota:{
+        id: data.socio_cuota.id,
+        estado: data.socio_cuota.estado
     }
   };
   return response;

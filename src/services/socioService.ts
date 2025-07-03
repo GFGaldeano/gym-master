@@ -104,4 +104,17 @@ export const getSocioById = async (id: string): Promise<Socio> => {
   return data as Socio;
 };
 
+export const getAllSociosActivos = async () => {
+  const { data, error } = await supabase
+    .from('socio')
+    .select('id_socio')
+    .eq('activo', true);
+    
+  if (error || !data){
+    console.log(error.message);
+    throw new Error("No se encontraron socios activos")
+  }
+
+  return data;
+};
 
