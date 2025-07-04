@@ -90,6 +90,7 @@ export const useSidebarMenu = (
       "Otros gastos",
       "Perfil",
       "Preferencias",
+      "Avisos",
     ];
 
     sections.forEach((section: SidebarSectionType) => {
