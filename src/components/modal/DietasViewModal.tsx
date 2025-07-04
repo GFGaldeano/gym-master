@@ -11,6 +11,12 @@ import { useState } from "react";
 import { FileSpreadsheet } from "lucide-react";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 pdfMake.vfs = pdfFonts.vfs;
 
@@ -213,13 +219,13 @@ export default function DietasViewModal({
               <h3 className="pb-2 text-base font-semibold border-b sm:text-lg">
                 Plan Alimentario
               </h3>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+              <Accordion type="single" collapsible className="w-full space-y-2">
                 {dietaHardcode.map((bloque, idx) => (
-                  <div key={idx} className="space-y-2">
-                    <h4 className="px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg text-primary bg-primary/10">
+                  <AccordionItem key={idx} value={`item-${idx}`}>
+                    <AccordionTrigger className="px-3 py-2 text-xs font-semibold rounded-lg sm:text-sm bg-primary/10 hover:bg-primary/20 [&[data-state=open]>svg]:rotate-180">
                       {bloque.title}
-                    </h4>
-                    <ul className="pl-3 space-y-1 sm:pl-4">
+                    </AccordionTrigger>
+                    <AccordionContent className="pt-2 pb-3 pl-4 pr-3 space-y-1 border-b border-l border-r rounded-b-lg">
                       {bloque.items.map((item, i) => (
                         <li
                           key={i}
@@ -229,10 +235,10 @@ export default function DietasViewModal({
                           {item}
                         </li>
                       ))}
-                    </ul>
-                  </div>
+                    </AccordionContent>
+                  </AccordionItem>
                 ))}
-              </div>
+              </Accordion>
             </div>
             <div className="w-full">
               <Button
