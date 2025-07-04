@@ -16,8 +16,8 @@ export const createCuota = async (payload: CreateCuotaDto): Promise<Cuota> => {
     .select().single();
   if (error) throw new Error(error.message);
 
-  const {id,fecha_inicio,fecha_fin} = data;
- await createSocioCuota({cuota_id: id,fecha_inicio ,fecha_fin});  //creo LOS socio cuota
+ // const {id,fecha_inicio,fecha_fin} = data;
+ //await createSocioCuota({cuota_id: id,fecha_inicio ,fecha_fin});  //creo LOS socio cuota
 
   return data as Cuota;
 };

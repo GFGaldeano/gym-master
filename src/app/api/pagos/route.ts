@@ -15,9 +15,9 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     
-    if (!body.socio_id || !body.cuota_id || !body.fecha_pago ||!body.socio_cuota_id || !body.monto_pagado || !body.registrado_por) {
-      return NextResponse.json({ error: "Todos los campos son obligatorios" }, { status: 400 });
-    }
+   // if (!body.socio_id || !body.cuota_id || !body.fecha_pago ||!body.socio_cuota_id || !body.monto_pagado || !body.registrado_por) {
+    //  return NextResponse.json({ error: "Todos los campos son obligatorios" }, { status: 400 });
+   // }
     const pago = await createPago(body);
     return NextResponse.json({ message: "Pago registrado con éxito", data: pago }, { status: 201 });
   } catch (error: any) {

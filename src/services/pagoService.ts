@@ -2,6 +2,7 @@ import { supabase } from "./supabaseClient";
 import { Pago, CreatePagoDto, UpdatePagoDto, ResponsePago } from "../interfaces/pago.interface";
 import { Socio } from "@/interfaces/socio.interface";
 import { updateEstadoSocioCuota } from "./socioCuotaService";
+import  dayjs  from 'dayjs';
 
 /*export const getAllPagos = async (): Promise<Pago[]> => {
   const { data, error } = await supabase.from("pago").select();
@@ -55,7 +56,7 @@ const responseAllPagos = (data : ResponsePago[]) :  ResponsePago[] =>{
   return response;
 }
 
-//TODO: CREAR LOGICA NECESARIA PARA VERIFICAR QUE EL SOCIO TENGA UNA CUOTA PENDIENTE Y QUE SEA 
+/*//TODO: CREAR LOGICA NECESARIA PARA VERIFICAR QUE EL SOCIO TENGA UNA CUOTA PENDIENTE Y QUE SEA 
 // EL SOCIO CORRECTO
 //TODO: VERIFICAR Y CORROBORAR EL MONTO DE PAGO
 export const createPago = async (payload: CreatePagoDto): Promise<Pago> => {
@@ -72,6 +73,40 @@ console.log("socio_Cuota",socioCuota);
 
   return data as Pago;
 };
+*/
+
+export const createPago = async (payload: CreatePagoDto) => {
+
+    const { data :cuota , error:cuotaError } = await supabase
+  .from("cuota")
+  .select()
+  .order('creado_en', { ascending: false })
+  .limit(1)
+  .single();
+  
+  const id_cuota = cuota.id
+  const fecha_pago = dayjs().format("YYYY-MM-DD");
+  const fecha_vencimiento = dayjs(cuota.fecha_inicio).add(30, 'day').format("YYYY-MM-DD"); // fecha de vencimiento es hoy + 30 dias
+  const monto_pagado = cuota.monto; // Asignar el monto de la cuota al pago
+
+  const { socio_id, registrado_por } = payload; 
+
+
+  const { data, error } = await supabase.from("pago").insert({
+    socio_id,
+    cuota_id: id_cuota,
+    fecha_pago,
+    fecha_vencimiento,
+    monto_pagado,
+    registrado_por,
+    
+  }).select().single();
+  if (error) throw new Error(error.message);
+
+
+  return data as Pago;
+};
+
 
 export const updatePago = async (id: string, updateData: UpdatePagoDto): Promise<Pago> => {
   const { data, error } = await supabase.from("pago").update(updateData).eq("id", id).select().single();

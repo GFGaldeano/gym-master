@@ -1,13 +1,10 @@
-import { getSociosConCuotasVencidas, sendCuotaAlerts } from "@/lib/brevo";
+import {  obtenerSociosDeudores } from "@/lib/brevo";
 import { NextResponse } from "next/server";
 
 export async function POST() {
   try {
-   // await sendCuotaAlerts();
- const socios=  await getSociosConCuotasVencidas(); 
- console.log(socios);
- 
-   return NextResponse.json({ message: "Alertas enviadas correctamente" }, { status: 200 });
+    const deudores = await obtenerSociosDeudores();
+   return NextResponse.json({message:"Obteniendo socios con la cuota vencida", data:deudores},{status:200});
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
