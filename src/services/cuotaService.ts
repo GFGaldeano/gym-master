@@ -1,6 +1,5 @@
 import { supabase } from "./supabaseClient";
 import { Cuota, CreateCuotaDto, UpdateCuotaDto } from "../interfaces/cuota.interface";
-import { createSocioCuota } from "./socioCuotaService";
 import dayjs from "dayjs";
 
 export const getAllCuotas = async (): Promise<Cuota[]> => {
@@ -15,9 +14,6 @@ export const createCuota = async (payload: CreateCuotaDto): Promise<Cuota> => {
   const { data, error } = await supabase.from("cuota").insert({...payload, activo:true})
     .select().single();
   if (error) throw new Error(error.message);
-
- // const {id,fecha_inicio,fecha_fin} = data;
- //await createSocioCuota({cuota_id: id,fecha_inicio ,fecha_fin});  //creo LOS socio cuota
 
   return data as Cuota;
 };

@@ -24,7 +24,7 @@ export interface UpdatePagoDto {
   socio_id?: string;
   cuota_id?: string;
   fecha_pago?: string;
-  //fecha_vencimiento?: string;
+  fecha_vencimiento?: string;
   monto_pagado?: number;
   registrado_por?: string;
   activo?: boolean;
@@ -48,8 +48,5 @@ export interface ResponsePago {
         id: string;
         descripcion: string;
     };
-    socio_cuota: {
-        id: string;
-        estado: string;
-    };
+    
 }
