@@ -46,14 +46,12 @@ export async function obtenerSociosDeudores() : Promise<Socio[]> {
             <br><p>Saludos,<br>Equipo Gym Master</p>`;
 
           try {
-           // await sendEmail({
-           //   to: [{ email: socio.email, name: socio.nombre_completo }],
-           //   subject,
-           //   htmlContent,
-           // });
-           console.log("%%%%%%%%%%%%%%%%%%%%%%%%");
+            await sendEmail({
+              to: [{ email: socio.email, name: socio.nombre_completo }],
+              subject,
+              htmlContent,
+            });
             console.log(`Email aviso de deuda enviado a ${socio.email}`);
-            console.log("%%%%%%%%%%%%%%%%%%%%%%%%");
           } catch (error) {
             console.error(`Error enviando email a ${socio.email}:`, error);
           }
@@ -89,7 +87,7 @@ export const desactivarSociosPorDeuda = async () => {
 
     if (errorPago || !ultimoPago) continue;
 
-    
+
     // Si el pago está vencido hace 7 días o más
     const diasVencido = dayjs(hoy).diff(dayjs(ultimoPago.fecha_vencimiento), 'day');
     if (diasVencido >= 7 && socio.activo) {
@@ -114,11 +112,11 @@ export const desactivarSociosPorDeuda = async () => {
           <p>Por favor, regulariza tu situación para reactivar tu acceso.</p>
           <br><p>Saludos,<br>Equipo Gym Master</p>`;
         try {
-         // await sendEmail({
-          //  to: [{ email: socio.email, name: socio.nombre_completo }],
-           // subject,
-           // htmlContent,
-          //});
+          await sendEmail({
+            to: [{ email: socio.email, name: socio.nombre_completo }],
+            subject,
+            htmlContent,
+          });
           console.log(`Email de suspensión enviado a ${socio.email}`);
         } catch (error) {
           console.error(`Error enviando email de suspensión a ${socio.email}:`, error);

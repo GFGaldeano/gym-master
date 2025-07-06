@@ -3,8 +3,8 @@ export interface Socio {
   usuario_id: string;
   nombre_completo: string;
   dni: string;
-  direccion: string;
-  telefono: string;
+  direccion?: string;
+  telefono?: string;
   email: string;
   foto?: string;
   activo: boolean;
@@ -12,12 +12,12 @@ export interface Socio {
 }
 
 export interface CreateSocioDto {
-  usuario_id?: string;
+  usuario_id: string;
   nombre_completo: string;
   dni: string;
   direccion?: string;
   telefono?: string;
-  email?: string;
+  email: string;
   foto?: string;
 }
 
