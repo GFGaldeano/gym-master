@@ -13,13 +13,7 @@ import {
   TableRow,
   TableCaption,
 } from "@/components/ui/table";
-
-export interface Venta {
-  id: string;
-  socio_id: string;
-  total: number;
-  fecha: string;
-}
+import { Venta } from "@/interfaces/venta.interface";
 
 export default function VentaTable({
   ventas,
@@ -38,7 +32,7 @@ export default function VentaTable({
     return (
       <div className="space-y-2">
         {[...Array(5)].map((_, i) => (
-          <Skeleton key={i} className="h-9 w-full rounded-md" />
+          <Skeleton key={i} className="w-full rounded-md h-9" />
         ))}
       </div>
     );
@@ -46,14 +40,14 @@ export default function VentaTable({
 
   if (ventas.length === 0 && !loading) {
     return (
-      <div className="text-center text-muted-foreground py-10">
+      <div className="py-10 text-center text-muted-foreground">
         No hay ventas registradas aún.
       </div>
     );
   }
 
   return (
-    <Table className="w-full text-sm border border-border rounded-md overflow-hidden">
+    <Table className="w-full overflow-hidden text-sm border rounded-md border-border">
       <TableHeader>
         <TableRow className="bg-muted/50 text-muted-foreground">
           <TableHead>Socio</TableHead>
@@ -68,7 +62,11 @@ export default function VentaTable({
             key={i}
             className="odd:bg-muted/40 hover:bg-[#a8d9f9] transition-colors"
           >
-            <TableCell className="font-medium">{v.socio_id}</TableCell>
+            <TableCell className="font-medium">
+              {"socio" in v && v.socio && v.socio.nombre_completo
+                ? v.socio.nombre_completo
+                : v.socio_id}
+            </TableCell>
             <TableCell>${v.total}</TableCell>
             <TableCell>{v.fecha}</TableCell>
             <TableCell className="flex gap-2">

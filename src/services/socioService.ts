@@ -31,7 +31,7 @@ export const createSocio = async (payload: {
 }
 
 export const updateSocio = async (
-  id: string,
+  id_socio: string,
   updateData: {
     nombre_completo?: string;
     dni?: string;
@@ -58,6 +58,7 @@ export const deleteSocio = async (id: string) => {
   const { data, error } = await supabase
     .from('socio')
     .update({ activo: false })
+    .eq('id_socio', id)
     .eq('id_socio', id)
     .select()
 
