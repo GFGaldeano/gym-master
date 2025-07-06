@@ -15,10 +15,10 @@ export const getAllPagos = async () : Promise<ResponsePago[]> => {
   .select(`*, 
     socio: socio_id ( id_socio, nombre_completo ),
     cuota: cuota_id (id, descripcion, fecha_fin),
-    registrado_por: registrado_por( id, nombre ),
-    socio_cuota: socio_cuota_id (id, estado)
+    registrado_por: registrado_por( id, nombre )
     `);
     
+console.log(error, data);
 
   if (error) throw new Error(error.message);
 
@@ -38,6 +38,7 @@ const responsePago = (data: ResponsePago): ResponsePago => {
     fecha_vencimiento: data.fecha_vencimiento,
     monto_pagado: data.monto_pagado,
     total: data.total,
+    enviar_email: data.enviar_email,
     registrado_por:{
         id: data.registrado_por.id,
         nombre: data.registrado_por.nombre
@@ -52,6 +53,7 @@ const responsePago = (data: ResponsePago): ResponsePago => {
     }
   };
 }
+
 
 export const createPago = async (payload: CreatePagoDto) :Promise<Pago> => {
 
@@ -69,7 +71,7 @@ export const createPago = async (payload: CreatePagoDto) :Promise<Pago> => {
   
   const id_cuota = cuota.id
   const fecha_pago = dayjs().format("YYYY-MM-DD");
-  const fecha_vencimiento = dayjs(cuota.fecha_inicio).add(30, 'day').format("YYYY-MM-DD"); // fecha de vencimiento es hoy + 30 dias
+  const fecha_vencimiento = dayjs(fecha_pago).add(30, 'day').format("YYYY-MM-DD"); // fecha de vencimiento es hoy + 30 dias
   const monto_pagado = cuota.monto; // Asignar el monto de la cuota al pago
 
   const { socio_id, registrado_por } = payload; 
@@ -82,6 +84,7 @@ export const createPago = async (payload: CreatePagoDto) :Promise<Pago> => {
     fecha_vencimiento,
     monto_pagado,
     registrado_por,
+    enviar_email: true, // Por defecto, se envía el email de notificación
     
   }).select().single();
   if (error) {
