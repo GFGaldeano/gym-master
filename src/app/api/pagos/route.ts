@@ -14,7 +14,8 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    if (!body.socio_id || !body.cuota_id || !body.fecha_pago || !body.fecha_vencimiento || !body.monto_pagado || !body.registrado_por) {
+    
+    if (!body.socio_id || !body.registrado_por) {
       return NextResponse.json({ error: "Todos los campos son obligatorios" }, { status: 400 });
     }
     const pago = await createPago(body);

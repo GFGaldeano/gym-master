@@ -1,23 +1,23 @@
 export interface Socio {
   id_socio: string;
-  usuario_id?: string;
+  usuario_id: string;
   nombre_completo: string;
   dni: string;
   direccion?: string;
   telefono?: string;
-  email?: string;
+  email: string;
   foto?: string;
-  activo?: boolean;
+  activo: boolean;
   fecha_baja?: string;
 }
 
 export interface CreateSocioDto {
-  usuario_id?: string;
+  usuario_id: string;
   nombre_completo: string;
   dni: string;
   direccion?: string;
   telefono?: string;
-  email?: string;
+  email: string;
   foto?: string;
 }
 
