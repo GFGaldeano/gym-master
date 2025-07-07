@@ -22,30 +22,32 @@ export default function UserViewModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="p-6 w-full max-w-lg sm:max-w-md">
+      <DialogContent className="w-full max-w-lg p-6 sm:max-w-md bg-background text-foreground">
         <DialogHeader>
-          <DialogTitle>Detalles del Usuario</DialogTitle>
+          <DialogTitle className="text-foreground">
+            Detalles del Usuario
+          </DialogTitle>
         </DialogHeader>
         <div className="mt-4 space-y-3">
-          <p className="text-gray-700">
+          <p className="text-foreground">
             <strong>ID:</strong> {usuario.id}
           </p>
-          <p className="text-gray-700">
+          <p className="text-foreground">
             <strong>Nombre:</strong> {usuario.nombre}
           </p>
-          <p className="text-gray-700">
+          <p className="text-foreground">
             <strong>Email:</strong> {usuario.email}
           </p>
-          <p className="text-gray-700">
+          <p className="text-foreground">
             <strong>Rol:</strong> {usuario.rol}
           </p>
-          <p className="text-gray-700">
+          <p className="text-foreground">
             <strong>Estado:</strong>{" "}
             <span
               className={`px-2 py-1 rounded-full text-xs font-semibold ${
                 usuario.activo
-                  ? "bg-green-100 text-green-800"
-                  : "bg-red-100 text-red-800"
+                  ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                  : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
               }`}
             >
               {usuario.activo ? "Activo" : "Deshabilitado"}

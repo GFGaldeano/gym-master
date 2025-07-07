@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Venta } from "@/components/tables/VentaTable";
+import { Venta } from "@/interfaces/venta.interface";
 
 export default function VentaViewModal({
   open,
@@ -21,26 +21,26 @@ export default function VentaViewModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="!max-w-[90vw] sm:!max-w-[800px] !w-full">
+      <DialogContent className="!max-w-[90vw] sm:!max-w-[800px] !w-full bg-background text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">
+          <DialogTitle className="text-xl font-semibold text-foreground">
             Detalle Venta
           </DialogTitle>
-          <div className="text-right text-sm text-muted-foreground">
+          <div className="text-sm text-right text-muted-foreground">
             {new Date().toLocaleString()}
           </div>
         </DialogHeader>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <div className="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Socio</label>
-              <div className="border rounded-md p-2 bg-gray-50">
-                {venta.socio_id || "-"}
+              <div className="p-2 border rounded-md bg-muted text-foreground">
+                {venta.socio?.nombre_completo || "-"}
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Fecha</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-muted text-foreground">
                 {venta.fecha || "-"}
               </div>
             </div>
@@ -48,7 +48,7 @@ export default function VentaViewModal({
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Total</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-muted text-foreground">
                 ${venta.total}
               </div>
             </div>

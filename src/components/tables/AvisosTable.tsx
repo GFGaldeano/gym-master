@@ -13,12 +13,7 @@ import {
   TableRow,
   TableCaption,
 } from "@/components/ui/table";
-
-export interface Aviso {
-  id_aviso: string;
-  asunto: string;
-  dia_enviado: string;
-}
+import { Aviso } from "@/interfaces/aviso.interface";
 
 export default function AvisosTable({
   avisos,
@@ -55,20 +50,26 @@ export default function AvisosTable({
     <Table className="w-full overflow-hidden text-sm border rounded-md border-border">
       <TableHeader>
         <TableRow className="bg-muted/50 text-muted-foreground">
-          <TableHead>Asunto</TableHead>
-          <TableHead>Día enviado</TableHead>
+          <TableHead>Título</TableHead>
+          <TableHead>Mensaje</TableHead>
+          <TableHead>Tipo</TableHead>
+          <TableHead>Fecha de envío</TableHead>
           <TableHead>Acciones</TableHead>
         </TableRow>
       </TableHeader>
 
       <TableBody>
-        {avisos.map((a, i) => (
+        {avisos.map((a) => (
           <TableRow
-            key={i}
+            key={a.id}
             className="odd:bg-muted/40 hover:bg-[#a8d9f9] transition-colors"
           >
-            <TableCell className="font-medium">{a.asunto}</TableCell>
-            <TableCell>{a.dia_enviado}</TableCell>
+            <TableCell className="font-medium">{a.titulo}</TableCell>
+            <TableCell className="max-w-[220px] truncate whitespace-nowrap overflow-hidden">
+              {a.mensaje}
+            </TableCell>
+            <TableCell>{a.tipo}</TableCell>
+            <TableCell>{a.fecha_envio}</TableCell>
             <TableCell className="flex gap-2">
               <Button
                 size="sm"
@@ -99,7 +100,7 @@ export default function AvisosTable({
 
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={2}>Total de avisos</TableCell>
+          <TableCell colSpan={4}>Total de avisos</TableCell>
           <TableCell className="text-right">{avisos.length}</TableCell>
         </TableRow>
       </TableFooter>

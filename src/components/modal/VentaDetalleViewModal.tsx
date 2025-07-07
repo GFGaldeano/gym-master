@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { VentaDetalle } from "@/components/tables/VentaDetalleTable";
+import { VentaDetalle } from "@/interfaces/venta_detalle.interface";
 
 export default function VentaDetalleViewModal({
   open,
@@ -26,27 +26,27 @@ export default function VentaDetalleViewModal({
           <DialogTitle className="text-xl font-semibold">
             Detalle de Venta
           </DialogTitle>
-          <div className="text-right text-sm text-muted-foreground">
+          <div className="text-sm text-right text-muted-foreground">
             {new Date().toLocaleString()}
           </div>
         </DialogHeader>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <div className="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Venta</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-gray-50">
                 {detalle.venta_id || "-"}
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Producto</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-gray-50">
                 {detalle.producto_id || "-"}
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Cantidad</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-gray-50">
                 {detalle.cantidad}
               </div>
             </div>
@@ -54,13 +54,13 @@ export default function VentaDetalleViewModal({
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Precio Unitario</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-gray-50">
                 ${detalle.precio_unitario}
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Subtotal</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-gray-50">
                 ${detalle.subtotal}
               </div>
             </div>
