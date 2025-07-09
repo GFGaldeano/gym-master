@@ -290,7 +290,7 @@ export default function RutinaModalView({
                 <label className="text-sm font-medium text-foreground">
                   Socio
                 </label>
-                <div className="p-2 border rounded-md bg-background text-foreground border-border">
+                <div className="p-2 border rounded-md bg-muted text-foreground border-border">
                   {rutina.socio || "-"}
                 </div>
               </div>
@@ -298,7 +298,7 @@ export default function RutinaModalView({
                 <label className="text-sm font-medium text-foreground">
                   Objetivo
                 </label>
-                <div className="p-2 border rounded-md bg-background text-foreground border-border">
+                <div className="p-2 border rounded-md bg-muted text-foreground border-border">
                   {rutina.objetivo || "-"}
                 </div>
               </div>
@@ -306,7 +306,7 @@ export default function RutinaModalView({
                 <label className="text-sm font-medium text-foreground">
                   Nivel
                 </label>
-                <div className="p-2 border rounded-md bg-background text-foreground border-border">
+                <div className="p-2 border rounded-md bg-muted text-foreground border-border">
                   {rutina.nivel || "-"}
                 </div>
               </div>
@@ -316,7 +316,7 @@ export default function RutinaModalView({
                 <label className="text-sm font-medium text-foreground">
                   Fecha
                 </label>
-                <div className="p-2 border rounded-md bg-background text-foreground border-border">
+                <div className="p-2 border rounded-md bg-muted text-foreground border-border">
                   {rutina.fecha || "-"}
                 </div>
               </div>
@@ -324,7 +324,7 @@ export default function RutinaModalView({
                 <label className="text-sm font-medium text-foreground">
                   Días
                 </label>
-                <div className="flex flex-wrap items-center gap-2 p-2 border rounded-md bg-background text-foreground border-border">
+                <div className="flex flex-wrap items-center gap-2 p-2 border rounded-md bg-muted text-foreground border-border">
                   <span className="truncate">{rutina.dias || "-"}</span>
                   <Button
                     variant="outline"
