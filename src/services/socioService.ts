@@ -1,7 +1,7 @@
-import { Socio } from '@/interfaces/socio.interface';
+import { CreateSocioDto, Socio, UpdateSocioDto } from '@/interfaces/socio.interface';
 import { supabase } from './supabaseClient'
 
-export const fetchSocios = async () => {
+export const fetchSocios = async () : Promise<Socio[]>=> {
   const { data, error } = await supabase
     .from('socio')
     .select('*') // sin filtros
@@ -12,62 +12,45 @@ export const fetchSocios = async () => {
 };
 
 
-export const createSocio = async (payload: {
-  usuario_id?: string;
-  nombre_completo: string;
-  dni: string;
-  direccion?: string;
-  telefono?: string;
-  email?: string;
-  foto?: string;
-}) => {
+export const createSocio = async (payload: CreateSocioDto) : Promise<Socio> => {
   const { data, error } = await supabase
     .from('socio')
-    .insert([payload])
+    .insert(payload)
     .select()
+    .single();
 
   if (error) throw new Error(error.message)
   return data
 }
 
-export const updateSocio = async (
-  id_socio: string,
-  updateData: {
-    nombre_completo?: string;
-    dni?: string;
-    direccion?: string;
-    telefono?: string;
-    email?: string;
-    foto?: string;
-    usuario_id?: string;
-    fecha_baja?: string;
-  }
-) => {
+export const updateSocio = async (id_socio: string,updateData: UpdateSocioDto) : Promise<Socio> => {
   const { data, error } = await supabase
     .from('socio')
     .update(updateData)
     .eq('id_socio', id_socio)
     .select()
+    .single();
 
   if (error) throw new Error(error.message)
   if (!data || data.length === 0) throw new Error('No se encontró el socio con ese ID')
   return data
 }
 
-export const deleteSocio = async (id: string) => {
+export const deleteSocio = async (id: string) :Promise<Socio> => {
   const { data, error } = await supabase
     .from('socio')
     .update({ activo: false })
     .eq('id_socio', id)
     .select()
+    .single();
 
   if (error) throw new Error(error.message)
   if (!data || data.length === 0) throw new Error('No se encontró el socio con ese ID')
+    return data;
 }
 
 
-//TODO: Modificar suprabase para que sea id, en lugar de id_socio, para utilizar el mismo nombre de campo en todas las tablas
-export const existeSocioActivo = async (id: string) => {
+export const existeSocioActivo = async (id: string) : Promise<boolean> => {
   const { data, error } = await supabase
     .from('socio')
     .select('id_socio')
@@ -102,6 +85,24 @@ export const getSocioById = async (id: string): Promise<Socio> => {
     throw new Error("No se encontró el socio con ese id");
   }
   return data as Socio;
+};
+
+export const getAllSociosActivos = async () :Promise<Socio[]> => {
+  const { data, error } = await supabase
+    .from('socio')
+    .select()
+    .eq('activo', true);
+    
+  if (error){
+    console.log(error.message);
+    throw new Error("No se encontraron socios activos")
+  }
+  if (!data || data.length === 0) {
+    console.log("No se encontraron socios activos");
+    return [];
+  }
+
+  return data;
 };
 
 

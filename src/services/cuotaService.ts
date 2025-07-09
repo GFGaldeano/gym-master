@@ -7,9 +7,13 @@ export const getAllCuotas = async (): Promise<Cuota[]> => {
   return data as Cuota[];
 };
 
+
+//TODO: CREAR LOGICA NECESARIA PARA LAS VALIDACIONES DE FECHA,
 export const createCuota = async (payload: CreateCuotaDto): Promise<Cuota> => {
-  const { data, error } = await supabase.from("cuota").insert({...payload, activo:true}).select().single();
+  const { data, error } = await supabase.from("cuota").insert({...payload, activo:true})
+    .select().single();
   if (error) throw new Error(error.message);
+
   return data as Cuota;
 };
 
@@ -39,3 +43,5 @@ export const getCuotaById = async (id: string): Promise<Cuota> => {
   }
   return data as Cuota;
 };
+
+
