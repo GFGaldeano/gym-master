@@ -9,9 +9,11 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import AvisosTable, { Aviso } from "@/components/tables/AvisosTable";
+import AvisosTable from "@/components/tables/AvisosTable";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { getAllAvisos, deleteAviso } from "@/services/avisoService";
+import { Aviso } from "@/interfaces/aviso.interface";
 import AvisosModal from "@/components/modal/AvisosModal";
 import AvisosModalView from "@/components/modal/AvisosModalView";
 
@@ -27,6 +29,15 @@ export default function AvisosPage() {
   const [openModalVer, setOpenModalVer] = useState(false);
   const [avisoVer, setAvisoVer] = useState<Aviso | null>(null);
 
+  const fetchAvisos = async () => {
+    setLoading(true);
+    try {
+      const data = await getAllAvisos();
+      setAvisos(data.filter((a) => a.activo !== false));
+    } catch {}
+    setLoading(false);
+  };
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/login");
@@ -35,22 +46,7 @@ export default function AvisosPage() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      setLoading(true);
-      setTimeout(() => {
-        setAvisos([
-          {
-            id_aviso: "1",
-            asunto: "Corte de luz",
-            dia_enviado: "2024-06-01",
-          },
-          {
-            id_aviso: "2",
-            asunto: "Nuevo horario",
-            dia_enviado: "2024-06-03",
-          },
-        ]);
-        setLoading(false);
-      }, 500);
+      fetchAvisos();
     }
   }, [status]);
 
@@ -60,12 +56,23 @@ export default function AvisosPage() {
       const lowercaseSearch = searchTerm.toLowerCase();
       avisosFiltrados = avisosFiltrados.filter(
         (a) =>
-          a.asunto.toLowerCase().includes(lowercaseSearch) ||
-          a.dia_enviado.toLowerCase().includes(lowercaseSearch)
+          a.titulo.toLowerCase().includes(lowercaseSearch) ||
+          a.mensaje.toLowerCase().includes(lowercaseSearch) ||
+          a.tipo.toLowerCase().includes(lowercaseSearch) ||
+          a.fecha_envio.toLowerCase().includes(lowercaseSearch)
       );
     }
     setFilteredAvisos(avisosFiltrados);
   }, [searchTerm, avisos]);
+
+  const handleDelete = async (aviso: Aviso) => {
+    setLoading(true);
+    try {
+      await deleteAviso(aviso.id);
+      fetchAvisos();
+    } catch {}
+    setLoading(false);
+  };
 
   if (status === "loading" || loading) {
     return <p>Cargando datos de avisos...</p>;
@@ -86,7 +93,7 @@ export default function AvisosPage() {
                     <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                       type="search"
-                      placeholder="Buscar por asunto o fecha..."
+                      placeholder="Buscar por título, mensaje, tipo o fecha..."
                       className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] w-full"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
@@ -99,8 +106,7 @@ export default function AvisosPage() {
                       setOpenModal(true);
                     }}
                   >
-                    <span className="hidden sm:inline">Añadir Aviso</span>
-                    <span className="sm:hidden">Añadir</span>
+                    Nuevo Aviso
                   </Button>
                 </div>
               </CardHeader>
@@ -117,7 +123,7 @@ export default function AvisosPage() {
                       setAvisoVer(aviso);
                       setOpenModalVer(true);
                     }}
-                    onDelete={() => {}}
+                    onDelete={handleDelete}
                   />
                 </div>
               </CardContent>
@@ -132,7 +138,10 @@ export default function AvisosPage() {
           setOpenModal(false);
           setSelectedAviso(null);
         }}
-        onCreated={() => {}}
+        onCreated={() => {
+          setOpenModal(false);
+          fetchAvisos();
+        }}
         aviso={selectedAviso}
       />
       <AvisosModalView

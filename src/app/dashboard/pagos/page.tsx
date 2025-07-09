@@ -12,7 +12,8 @@ import { Search, Printer, FileSpreadsheet } from "lucide-react";
 import { getAllPagos, deletePago } from "@/services/pagoService";
 import PagoModal from "@/components/modal/PagoModal";
 import PagoViewModal from "@/components/modal/PagoViewModal";
-import PagoTable, { Pago } from "@/components/tables/PagoTable";
+import PagoTable from "@/components/tables/PagoTable";
+import { ResponsePago } from "@/interfaces/pago.interface";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { toast } from "sonner";
@@ -21,14 +22,14 @@ import ExcelJS from "exceljs";
 export default function PagosPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [pagos, setPagos] = useState<Pago[]>([]);
-  const [filteredPagos, setFilteredPagos] = useState<Pago[]>([]);
+  const [pagos, setPagos] = useState<ResponsePago[]>([]);
+  const [filteredPagos, setFilteredPagos] = useState<ResponsePago[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
-  const [selectedPago, setSelectedPago] = useState<Pago | null>(null);
+  const [selectedPago, setSelectedPago] = useState<ResponsePago | null>(null);
   const [openModalVer, setOpenModalVer] = useState(false);
-  const [pagoVer, setPagoVer] = useState<Pago | null>(null);
+  const [pagoVer, setPagoVer] = useState<ResponsePago | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -53,8 +54,8 @@ export default function PagosPage() {
     const worksheet = workbook.addWorksheet("Pagos");
 
     worksheet.columns = [
-      { header: "Socio", key: "socio_id", width: 20 },
-      { header: "Cuota", key: "cuota_id", width: 20 },
+      { header: "Socio", key: "socio", width: 20 },
+      { header: "Cuota", key: "cuota", width: 20 },
       { header: "Fecha Pago", key: "fecha_pago", width: 20 },
       { header: "Vencimiento", key: "fecha_vencimiento", width: 20 },
       { header: "Monto Pagado", key: "monto_pagado", width: 15 },
@@ -64,13 +65,13 @@ export default function PagosPage() {
 
     filteredPagos.forEach((p) => {
       worksheet.addRow({
-        socio_id: p.socio_id,
-        cuota_id: p.cuota_id,
+        socio: p.socio?.nombre_completo || "",
+        cuota: p.cuota?.descripcion || "",
         fecha_pago: p.fecha_pago,
         fecha_vencimiento: p.fecha_vencimiento,
         monto_pagado: p.monto_pagado,
         total: p.total,
-        registrado_por: p.registrado_por,
+        registrado_por: p.registrado_por?.nombre || "",
       });
     });
 
@@ -101,9 +102,11 @@ export default function PagosPage() {
     const lowercaseSearch = searchTerm.toLowerCase();
     const filtered = pagos.filter(
       (p) =>
-        p.socio_id.toLowerCase().includes(lowercaseSearch) ||
-        p.cuota_id.toLowerCase().includes(lowercaseSearch) ||
-        p.registrado_por.toLowerCase().includes(lowercaseSearch)
+        (p.socio?.nombre_completo || "")
+          .toLowerCase()
+          .includes(lowercaseSearch) ||
+        (p.cuota?.descripcion || "").toLowerCase().includes(lowercaseSearch) ||
+        (p.registrado_por?.nombre || "").toLowerCase().includes(lowercaseSearch)
     );
 
     setFilteredPagos(filtered);
@@ -121,9 +124,9 @@ export default function PagosPage() {
           <AppHeader title="Pagos" />
           <main className="flex-1 p-6 space-y-6">
             <Card className="w-full">
-              <CardHeader className="flex flex-wrap gap-4 justify-between items-center p-4 border-b md:flex-nowrap">
+              <CardHeader className="flex flex-wrap items-center justify-between gap-4 p-4 border-b md:flex-nowrap">
                 <h2 className="text-xl font-bold">Listado de Pagos</h2>
-                <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
+                <div className="flex flex-wrap items-center w-full gap-2 md:w-auto">
                   <div className="relative flex-grow md:flex-grow-0">
                     <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -211,7 +214,21 @@ export default function PagosPage() {
           setOpenModalVer(false);
           setPagoVer(null);
         }}
-        pago={pagoVer}
+        pago={
+          pagoVer
+            ? {
+                id: pagoVer.id,
+                socio_id: pagoVer.socio?.id ?? "",
+                cuota_id: pagoVer.cuota?.id ?? "",
+                fecha_pago: pagoVer.fecha_pago,
+                fecha_vencimiento: pagoVer.fecha_vencimiento,
+                monto_pagado: pagoVer.monto_pagado,
+                total: pagoVer.total,
+                registrado_por: pagoVer.registrado_por?.id ?? "",
+                enviar_email: pagoVer.enviar_email ?? false,
+              }
+            : null
+        }
       />
     </SidebarProvider>
   );

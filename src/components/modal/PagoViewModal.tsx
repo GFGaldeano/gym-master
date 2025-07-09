@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Pago } from "@/components/tables/PagoTable";
+import { Pago } from "@/interfaces/pago.interface";
 
 export default function PagoViewModal({
   open,
@@ -21,32 +21,32 @@ export default function PagoViewModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="!max-w-[90vw] sm:!max-w-[800px] !w-full">
+      <DialogContent className="!max-w-[90vw] sm:!max-w-[800px] !w-full bg-background text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">
+          <DialogTitle className="text-xl font-semibold text-foreground">
             Detalle Pago
           </DialogTitle>
-          <div className="text-right text-sm text-muted-foreground">
+          <div className="text-sm text-right text-muted-foreground">
             {new Date().toLocaleString()}
           </div>
         </DialogHeader>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <div className="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Socio</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-muted text-foreground">
                 {pago.socio_id || "-"}
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Cuota</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-muted text-foreground">
                 {pago.cuota_id || "-"}
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Fecha Pago</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-muted text-foreground">
                 {pago.fecha_pago || "-"}
               </div>
             </div>
@@ -54,19 +54,19 @@ export default function PagoViewModal({
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Monto Pagado</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-muted text-foreground">
                 ${pago.monto_pagado}
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Registrado Por</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-muted text-foreground">
                 {pago.registrado_por || "-"}
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Total</label>
-              <div className="border rounded-md p-2 bg-gray-50">
+              <div className="p-2 border rounded-md bg-muted text-foreground">
                 ${pago.total}
               </div>
             </div>
