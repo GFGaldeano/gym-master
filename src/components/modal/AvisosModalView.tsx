@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Aviso } from "@/components/tables/AvisosTable";
+import { Aviso } from "@/interfaces/aviso.interface";
 
 export default function AvisosModalView({
   open,
@@ -21,30 +21,36 @@ export default function AvisosModalView({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="!max-w-[90vw] sm:!max-w-[800px] !w-full">
+      <DialogContent className="!max-w-[90vw] sm:!max-w-[800px] !w-full bg-background text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">
+          <DialogTitle className="text-xl font-semibold text-foreground">
             Detalle Aviso
           </DialogTitle>
-          <div className="text-right text-sm text-muted-foreground">
+          <div className="text-sm text-right text-muted-foreground">
             {new Date().toLocaleString()}
           </div>
         </DialogHeader>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <div className="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Asunto</label>
-              <div className="border rounded-md p-2 bg-gray-50">
-                {aviso.asunto || "-"}
+              <div className="p-2 border rounded-md bg-muted text-foreground">
+                {aviso.titulo || "-"}
               </div>
             </div>
           </div>
           <div className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Día enviado</label>
-              <div className="border rounded-md p-2 bg-gray-50">
-                {aviso.dia_enviado || "-"}
+              <label className="text-sm font-medium">Fecha de envío</label>
+              <div className="p-2 border rounded-md bg-muted text-foreground">
+                {aviso.fecha_envio || "-"}
               </div>
+            </div>
+          </div>
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-sm font-medium">Mensaje</label>
+            <div className="p-2 break-words whitespace-pre-line border rounded-md bg-muted text-foreground">
+              {aviso.mensaje || "-"}
             </div>
           </div>
         </div>

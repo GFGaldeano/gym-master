@@ -21,38 +21,37 @@ export default function ActividadViewModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="p-6 w-full max-w-lg sm:max-w-md">
+      <DialogContent className="w-full max-w-lg p-6 sm:max-w-md bg-background text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">
+          <DialogTitle className="text-xl font-semibold text-foreground">
             Detalles de Actividad
           </DialogTitle>
           <div className="text-sm text-right text-muted-foreground">
             {new Date().toLocaleString()}
           </div>
         </DialogHeader>
-
         <div className="mt-4 space-y-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">ID</label>
-            <div className="p-2 bg-gray-50 rounded-md border">
+            <div className="p-2 border rounded-md bg-muted text-foreground">
               {actividad.id || "-"}
             </div>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Nombre de Actividad</label>
-            <div className="p-2 bg-gray-50 rounded-md border">
+            <div className="p-2 border rounded-md bg-muted text-foreground">
               {actividad.nombre_actividad || "-"}
             </div>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Creado en</label>
-            <div className="p-2 bg-gray-50 rounded-md border">
+            <div className="p-2 border rounded-md bg-muted text-foreground">
               {new Date(actividad.creado_en).toLocaleString() || "-"}
             </div>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Actualizado en</label>
-            <div className="p-2 bg-gray-50 rounded-md border">
+            <div className="p-2 border rounded-md bg-muted text-foreground">
               {new Date(actividad.actualizado_en).toLocaleString() || "-"}
             </div>
           </div>
