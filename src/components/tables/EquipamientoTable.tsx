@@ -63,9 +63,9 @@ export default function EquipamientoTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {equipos.map((e, i) => (
+        {equipos.map((e) => (
           <TableRow
-            key={i}
+            key={e.id}
             className="odd:bg-muted/40 hover:bg-[#a8d9f9] transition-colors"
           >
             <TableCell>{e.nombre}</TableCell>
