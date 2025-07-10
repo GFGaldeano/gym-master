@@ -25,6 +25,7 @@ import { Filter, Search, Printer, FileSpreadsheet } from "lucide-react";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { AppHeader } from "@/components/header/AppHeader";
 import { AppFooter } from "@/components/footer/AppFooter";
+import ExcelJS from "exceljs";
 
 export default function EquipamientosPage() {
   const { status } = useSession();
@@ -93,6 +94,37 @@ export default function EquipamientosPage() {
       );
     }
     return equiposFiltrados;
+  };
+
+  const handleExportExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Equipamientos");
+    worksheet.columns = [
+      { header: "ID", key: "id", width: 20 },
+      { header: "Nombre", key: "nombre", width: 30 },
+      { header: "Tipo", key: "tipo", width: 20 },
+      { header: "Estado", key: "estado", width: 20 },
+      { header: "Ubicación", key: "ubicacion", width: 20 },
+    ];
+    getFilteredEquipos().forEach((e) => {
+      worksheet.addRow({
+        id: e.id,
+        nombre: e.nombre,
+        tipo: e.tipo,
+        estado: e.estado,
+        ubicacion: e.ubicacion,
+      });
+    });
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Listado_Equipamientos.xlsx";
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
 
   if (status === "loading" || loading) {
@@ -249,7 +281,7 @@ export default function EquipamientosPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => {}}
+                    onClick={handleExportExcel}
                     className="flex items-center gap-2 bg-white border-[#02a8e1] text-[#02a8e1] hover:bg-[#e6f7fd]"
                   >
                     <FileSpreadsheet className="w-4 h-4" />
