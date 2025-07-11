@@ -6,7 +6,8 @@ export interface Mantenimiento{
     fecha_mantenimiento: string;
     tecnico_responsable: string;
     costo: number; 
-    observaciones: string; 
+    observaciones: string;
+    estado: 'en proceso' | 'completado';
 }
 
 export interface CreateMantenimientoDTO {
@@ -17,6 +18,7 @@ export interface CreateMantenimientoDTO {
     tecnico_responsable: string;
     costo: number; 
     observaciones?: string; // opcional, por defecto "Sin observaciones"
+    estado?: 'en proceso' | 'completado'; // opcional, por defecto "en proceso"
 }
 export interface UpdateMantenimientoDTO {
     id_equipamiento?: string;
@@ -26,4 +28,5 @@ export interface UpdateMantenimientoDTO {
     tecnico_responsable?: string;
     costo?: number; 
     observaciones?: string; // opcional, por defecto "Sin observaciones"
+    estado?: 'en proceso' | 'completado';
 }

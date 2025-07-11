@@ -32,8 +32,5 @@ export interface ResponseAsistencia {
     socio_id: string;
     nombre_completo: string;
   };
-
-}
-
 }
 
