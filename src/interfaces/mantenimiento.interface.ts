@@ -7,6 +7,7 @@ export interface Mantenimiento{
     tecnico_responsable: string;
     costo: number; 
     observaciones: string; 
+    estado:string; //en proceso / completado
 }
 
 export interface CreateMantenimientoDTO {
@@ -26,4 +27,5 @@ export interface UpdateMantenimientoDTO {
     tecnico_responsable?: string;
     costo?: number; 
     observaciones?: string; // opcional, por defecto "Sin observaciones"
+    estado?:string;
 }
