@@ -1,6 +1,7 @@
 import { CreateMantenimientoDTO, Mantenimiento, UpdateMantenimientoDTO } from "@/interfaces/mantenimiento.interface";
 import { supabase } from "./supabaseClient"
-import { getOneEquipamientoById } from "./equipamientoService";
+import { getOneEquipamientoById, updateEquipamiento } from "./equipamientoService";
+
 import dayjs from "dayjs";
 
 export const getMantenimientoByIdEquipamiento = async (id: string) : Promise<Mantenimiento[]>=> {
@@ -60,4 +61,6 @@ export const getAllMantenimientos = async () : Promise<Mantenimiento[]> => {
     }
 
     return data;
+
 }
+
